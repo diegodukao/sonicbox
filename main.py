@@ -5,17 +5,21 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from pythonosc import udp_client
 
+from samples import AMBIENT_SOUNDS, sample_path
+
 kivy.require('1.10.0')
 
 
-def sample_path(sample_str):
-    path = '/home/diego/Applications/src/sonic-pi/etc/samples/'
-    ext = ".flac"
-    return f"{path}{sample_str}{ext}"
+class SamplesKeyboard(GridLayout):
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
-class Main(GridLayout):
-    cols = 2
+        self.cols = 2
+
+        for sample in AMBIENT_SOUNDS:
+            btn = PlayButton(text=sample)
+            self.add_widget(btn)
 
 
 class PlayButton(Button):
@@ -26,7 +30,7 @@ class PlayButton(Button):
 
     def play(self, note):
         print(note)
-        self.sender.send_message('/sample', sample_path('ambi_choir'))
+        self.sender.send_message('/sample', sample_path(self.text))
 
 
 class SonicBox(App):
