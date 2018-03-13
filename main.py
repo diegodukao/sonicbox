@@ -1,15 +1,21 @@
 import kivy
 
 from kivy.app import App
-from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.button import Button
 from pythonosc import udp_client
 
 kivy.require('1.10.0')
 
 
-class Main(BoxLayout):
-    pass
+def sample_path(sample_str):
+    path = '/home/diego/Applications/src/sonic-pi/etc/samples/'
+    ext = ".flac"
+    return f"{path}{sample_str}{ext}"
+
+
+class Main(GridLayout):
+    cols = 2
 
 
 class PlayButton(Button):
@@ -20,7 +26,7 @@ class PlayButton(Button):
 
     def play(self, note):
         print(note)
-        self.sender.send_message('/play', 55)
+        self.sender.send_message('/sample', sample_path('ambi_choir'))
 
 
 class SonicBox(App):
