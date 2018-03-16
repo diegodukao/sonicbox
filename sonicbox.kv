@@ -1,5 +1,6 @@
 BoxLayout:
 	orientation: 'vertical'
+	samples_groups: samples_carousel
 
 	BoxLayout:
 		orientation: 'horizontal'
@@ -8,14 +9,17 @@ BoxLayout:
 		Button:
 			text: "<="
 			size_hint_x: 0.1
+			on_press: root.samples_groups.load_previous()
 		Label:
 			text: 'Samples'
 			size_hint_x: 0.8
 		Button:
 			text: "=>"
 			size_hint_x: 0.1
+			on_press: root.samples_groups.load_next()
 
 	SamplesCarousel:
+		id: samples_carousel
 		size_hint_y: 0.85
 
 
