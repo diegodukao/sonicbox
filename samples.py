@@ -1,7 +1,7 @@
 def sample_path(sample_str):
     path = '/home/diego/Applications/src/sonic-pi/etc/samples/'
     ext = ".flac"
-    return f"{path}{sample_str}{ext}"
+    return "{}{}{}".format(path, sample_str, ext)
 
 
 AMBIENT_SOUNDS = [
@@ -178,4 +178,20 @@ VINYL_SOUNDS = [
     'vinyl_rewind',
     'vinyl_scratch',
     'vinyl_hiss',
+]
+
+
+SAMPLES_GROUPS = [
+    AMBIENT_SOUNDS,
+    BASS_DRUMS,
+    BASS_SOUNDS,
+    DRUM_SOUNDS,
+    ELECTRIC_SOUNDS,
+    MISC_SOUNDS,
+    PERCUSSIVE_SOUNDS,
+    SNARE_DRUMS,
+    SOUNDS_GUITARS,
+    SOUNDS_LOOPING,
+    SOUNDS_TABLA_DRUM,
+    VINYL_SOUNDS,
 ]

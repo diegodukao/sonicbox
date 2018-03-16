@@ -1,5 +1,23 @@
-SamplesKeyboard:
+BoxLayout:
+	orientation: 'vertical'
+
+	BoxLayout:
+		orientation: 'horizontal'
+		size_hint_y: 0.15
+
+		Button:
+			text: "<="
+			size_hint_x: 0.1
+		Label:
+			text: 'Samples'
+			size_hint_x: 0.8
+		Button:
+			text: "=>"
+			size_hint_x: 0.1
+
+	SamplesCarousel:
+		size_hint_y: 0.85
 
 
 <PlayButton>:
-	on_press: self.play("vrau")
+	on_press: self.play()
