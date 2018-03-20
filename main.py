@@ -4,6 +4,7 @@ from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.carousel import Carousel
 from kivy.uix.gridlayout import GridLayout
+from kivymd.theming import ThemeManager
 from pythonosc import udp_client
 
 from samples import sample_path, SAMPLES_GROUPS
@@ -46,7 +47,11 @@ class PlayButton(Button):
 
 
 class SonicBox(App):
-    pass
+    theme_cls = ThemeManager()
+
+    def build(self):
+        self.theme_cls.theme_style = "Dark"
+        return self.root
 
 
 SonicBox().run()
