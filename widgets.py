@@ -8,10 +8,6 @@ from pythonosc import udp_client
 from samples import sample_path
 
 
-class SamplesScreen(Screen):
-    pass
-
-
 class SynthsScreen(Screen):
 
     def __init__(self, **kwargs):
@@ -20,12 +16,29 @@ class SynthsScreen(Screen):
         self.name = 'synths'
 
         grid = GridLayout()
-        grid.cols = 8
+        grid.cols = 7
 
-        for i in range(64):
-            grid.add_widget(Button())
+        for i in range(49):
+            grid.add_widget(NoteButton(i))
 
         self.add_widget(grid)
+
+
+class NoteButton(Button):
+
+    def __init__(self, note, **kwargs):
+        super().__init__(**kwargs)
+        self.sender = udp_client.SimpleUDPClient("127.0.0.1", 4559)
+        self.note = note
+        # self.text = str(note)
+
+    def play(self):
+        self.sender.send_message('/synth',
+                                 ['c2', 'major', self.note])
+
+
+class SamplesScreen(Screen):
+    pass
 
 
 class SamplesKeyboard(StackLayout):
