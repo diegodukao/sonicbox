@@ -9,19 +9,18 @@ from samples import sample_path
 
 
 class SynthsScreen(Screen):
+    pass
+
+
+class SynthKeyboard(GridLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.name = 'synths'
-
-        grid = GridLayout()
-        grid.cols = 7
+        self.cols = 7
 
         for i in range(49):
-            grid.add_widget(NoteButton(i))
-
-        self.add_widget(grid)
+            self.add_widget(NoteButton(i))
 
 
 class NoteButton(Button):

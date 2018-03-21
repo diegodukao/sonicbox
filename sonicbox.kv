@@ -5,6 +5,7 @@
 #:import Toolbar kivymd.toolbar.Toolbar
 
 #:import SamplesScreen widgets.SamplesScreen
+#:import SynthKeyboard widgets.SynthKeyboard
 #:import SynthsScreen widgets.SynthsScreen
 
 
@@ -74,6 +75,13 @@ NavigationLayout:
         SamplesCarousel:
             id: samples_carousel
             size_hint_y: 0.8
+
+
+<SynthsScreen>:
+    name: "synths"
+    
+    SynthKeyboard:
+
 
 <PlayButton>:
     on_press: self.play()
