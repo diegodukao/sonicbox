@@ -1,27 +1,57 @@
-BoxLayout:
-	orientation: 'vertical'
-	samples_groups: samples_carousel
+#:import MDNavigationDrawer kivymd.navigationdrawer.MDNavigationDrawer
+#:import NavigationLayout kivymd.navigationdrawer.NavigationLayout
+#:import NavigationDrawerToolbar kivymd.navigationdrawer.NavigationDrawerToolbar
+#:import NavigationDrawerIconButton kivymd.navigationdrawer.NavigationDrawerIconButton
+#:import Toolbar kivymd.toolbar.Toolbar
 
-	BoxLayout:
-		orientation: 'horizontal'
-		size_hint_y: 0.15
 
-		Button:
-			text: "<="
-			size_hint_x: 0.1
-			on_press: root.samples_groups.load_previous()
-		Label:
-			text: 'Samples'
-			size_hint_x: 0.8
-		Button:
-			text: "=>"
-			size_hint_x: 0.1
-			on_press: root.samples_groups.load_next()
+NavigationLayout:
+    id: nav_layout
+    samples_groups: samples_carousel
 
-	SamplesCarousel:
-		id: samples_carousel
-		size_hint_y: 0.85
+    MDNavigationDrawer:
+        id: nav_drawer
+        NavigationDrawerToolbar:
+            title: "Sonicbox"
+        NavigationDrawerIconButton:
+            icon: 'checkbox-blank-circle'
+            text: "Samples"
+            # on_release: app.root.ids.scr_mngr.current = 'accordion'
+        NavigationDrawerIconButton:
+            icon: 'checkbox-blank-circle'
+            text: "Synths"
+    BoxLayout:
+        orientation: 'vertical'
+
+        Toolbar:
+            id: toolbar
+            size_hint_y: 0.08
+            title: 'Sonicbox'
+            md_bg_color: app.theme_cls.primary_color
+            # background_palette: 'Primary'
+            # background_hue: '500'
+            left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: 0.15
+
+            Button:
+                text: "<="
+                size_hint_x: 0.1
+                on_press: root.samples_groups.load_previous()
+            Label:
+                text: 'Samples'
+                size_hint_x: 0.8
+            Button:
+                text: "=>"
+                size_hint_x: 0.1
+                on_press: root.samples_groups.load_next()
+
+        SamplesCarousel:
+            id: samples_carousel
+            size_hint_y: 0.77
 
 
 <PlayButton>:
-	on_press: self.play()
+    on_press: self.play()
