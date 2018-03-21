@@ -4,10 +4,14 @@
 #:import NavigationDrawerIconButton kivymd.navigationdrawer.NavigationDrawerIconButton
 #:import Toolbar kivymd.toolbar.Toolbar
 
+#:import SamplesScreen widgets.SamplesScreen
+#:import SynthsScreen widgets.SynthsScreen
+
 
 NavigationLayout:
     id: nav_layout
-    samples_groups: samples_carousel
+    samples_groups: samples_screen.carousel
+    screens: scr_mngr
 
     MDNavigationDrawer:
         id: nav_drawer
@@ -16,10 +20,12 @@ NavigationLayout:
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
             text: "Samples"
-            # on_release: app.root.ids.scr_mngr.current = 'accordion'
+            on_release: app.root.screens.current = 'samples'
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
             text: "Synths"
+            on_release: app.root.screens.current = 'synths'
+
     BoxLayout:
         orientation: 'vertical'
 
@@ -32,9 +38,26 @@ NavigationLayout:
             # background_hue: '500'
             left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
 
+        ScreenManager:
+            id: scr_mngr
+            size_hint_y: 0.92
+            current: 'synths'
+            
+            SamplesScreen:
+                id: samples_screen
+            SynthsScreen:
+                id: synths_screen
+
+
+<SamplesScreen>:
+    name: 'samples'
+    carousel: samples_carousel
+
+    BoxLayout:
+        orientation: 'vertical'
         BoxLayout:
             orientation: 'horizontal'
-            size_hint_y: 0.15
+            size_hint_y: 0.2
 
             Button:
                 text: "<="
@@ -50,8 +73,7 @@ NavigationLayout:
 
         SamplesCarousel:
             id: samples_carousel
-            size_hint_y: 0.77
-
+            size_hint_y: 0.8
 
 <PlayButton>:
     on_press: self.play()
