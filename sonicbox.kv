@@ -94,11 +94,13 @@ NavigationLayout:
                 current: "c2"
                 text: "Tonic: {}".format(self.current)
             SynthButton:
+                synth: synth_keyboard
                 current: "major"
                 text: "Scale: {}".format(self.current)
                 on_release: self.open_bottom_sheet()
 
         SynthKeyboard:
+            id: synth_keyboard
             size_hint_y: 0.8
 
 
