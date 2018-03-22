@@ -88,20 +88,25 @@ NavigationLayout:
             orientation: 'horizontal'
             
             SynthButton:
+                id: synth_button
                 current: "piano"
                 text: "Synth: {}".format(self.current)
             SynthButton:
-                current: "c2"
+                id: tonic_button
+                current: "g1"
                 text: "Tonic: {}".format(self.current)
+                on_release: self.open_bottom_sheet('tonics')
             SynthButton:
-                synth: synth_keyboard
+                id: scale_button
                 current: "major"
                 text: "Scale: {}".format(self.current)
-                on_release: self.open_bottom_sheet()
+                on_release: self.open_bottom_sheet('scales')
 
         SynthKeyboard:
-            id: synth_keyboard
             size_hint_y: 0.8
+            synth: synth_button.current
+            tonic: tonic_button.current
+            scale: scale_button.current
 
 
 <PlayButton>:

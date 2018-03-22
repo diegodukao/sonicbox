@@ -7,7 +7,7 @@ from kivymd.button import MDRaisedButton
 from pythonosc import udp_client
 
 from samples import sample_path
-from synths import SCALES
+from synths import SCALES, TONICS
 
 
 class SynthsScreen(Screen):
@@ -16,14 +16,20 @@ class SynthsScreen(Screen):
 
 class SynthButton(Button):
 
-    def change_scale(self, scale):
-        self.synth.scale = scale
+    def change_current(self, new_value):
+        self.current = new_value
 
-    def open_bottom_sheet(self):
+    def open_bottom_sheet(self, option):
         bs = MDListBottomSheet()
 
-        for scale in SCALES:
-            bs.add_item(scale, lambda x: self.change_scale(x.text), icon='nfc')
+        if option == 'tonics':
+            items = TONICS
+        elif option == 'scales':
+            items = SCALES
+
+        for item in items:
+            bs.add_item(item, lambda x: self.change_current(x.text),
+                        icon='nfc')
 
         bs.open()
 
@@ -34,8 +40,6 @@ class SynthKeyboard(GridLayout):
         super().__init__(**kwargs)
 
         self.cols = 7
-        self.tonic = 'c2'
-        self.scale = 'major'
 
         for i in range(49):
             self.add_widget(NoteButton(i))
