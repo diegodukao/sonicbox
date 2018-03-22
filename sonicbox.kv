@@ -91,6 +91,7 @@ NavigationLayout:
                 id: synth_button
                 current: "piano"
                 text: "Synth: {}".format(self.current)
+                on_release: self.open_bottom_sheet('synths')
             SynthButton:
                 id: tonic_button
                 current: "g1"

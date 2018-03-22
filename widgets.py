@@ -7,7 +7,7 @@ from kivymd.button import MDRaisedButton
 from pythonosc import udp_client
 
 from samples import sample_path
-from synths import SCALES, TONICS
+from synths import SCALES, SYNTHS, TONICS
 
 
 class SynthsScreen(Screen):
@@ -22,10 +22,14 @@ class SynthButton(Button):
     def open_bottom_sheet(self, option):
         bs = MDListBottomSheet()
 
-        if option == 'tonics':
+        if option == 'synths':
+            items = SYNTHS
+        elif option == 'tonics':
             items = TONICS
         elif option == 'scales':
             items = SCALES
+        else:
+            raise Exception
 
         for item in items:
             bs.add_item(item, lambda x: self.change_current(x.text),
@@ -56,7 +60,13 @@ class NoteButton(Button):
     def play(self):
         self.sender.send_message(
             '/synth',
-            [self.parent.tonic, self.parent.scale, self.note])
+            [
+                self.parent.synth,
+                self.parent.tonic,
+                self.parent.scale,
+                self.note,
+            ]
+        )
 
 
 class SamplesScreen(Screen):
