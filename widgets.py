@@ -2,14 +2,27 @@ from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.stacklayout import StackLayout
+from kivymd.bottomsheet import MDListBottomSheet
 from kivymd.button import MDRaisedButton
 from pythonosc import udp_client
 
 from samples import sample_path
+from synths import SCALES
 
 
 class SynthsScreen(Screen):
     pass
+
+
+class SynthButton(Button):
+
+    def open_bottom_sheet(self):
+        bs = MDListBottomSheet()
+
+        for scale in SCALES:
+            bs.add_item(scale, lambda x: x, icon='nfc')
+
+        bs.open()
 
 
 class SynthKeyboard(GridLayout):

@@ -5,6 +5,7 @@
 #:import Toolbar kivymd.toolbar.Toolbar
 
 #:import SamplesScreen widgets.SamplesScreen
+#:import SynthButton widgets.SynthButton
 #:import SynthKeyboard widgets.SynthKeyboard
 #:import SynthsScreen widgets.SynthsScreen
 
@@ -80,7 +81,25 @@ NavigationLayout:
 <SynthsScreen>:
     name: "synths"
     
-    SynthKeyboard:
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 0.2
+            orientation: 'horizontal'
+            
+            SynthButton:
+                current: "piano"
+                text: "Synth: {}".format(self.current)
+            SynthButton:
+                current: "c2"
+                text: "Tonic: {}".format(self.current)
+            SynthButton:
+                current: "major"
+                text: "Scale: {}".format(self.current)
+                on_release: self.open_bottom_sheet()
+
+        SynthKeyboard:
+            size_hint_y: 0.8
 
 
 <PlayButton>:
