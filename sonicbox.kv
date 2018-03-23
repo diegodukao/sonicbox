@@ -12,7 +12,6 @@
 
 NavigationLayout:
     id: nav_layout
-    samples_groups: samples_screen.carousel
     screens: scr_mngr
 
     MDNavigationDrawer:
@@ -43,7 +42,6 @@ NavigationLayout:
         ScreenManager:
             id: scr_mngr
             size_hint_y: 0.92
-            current: 'synths'
             
             SamplesScreen:
                 id: samples_screen
@@ -53,7 +51,7 @@ NavigationLayout:
 
 <SamplesScreen>:
     name: 'samples'
-    carousel: samples_carousel
+    samples_groups: samples_carousel
 
     BoxLayout:
         orientation: 'vertical'
@@ -94,7 +92,7 @@ NavigationLayout:
                 on_release: self.open_bottom_sheet('synths')
             SynthButton:
                 id: tonic_button
-                current: "g1"
+                current: "c1"
                 text: "Tonic: {}".format(self.current)
                 on_release: self.open_bottom_sheet('tonics')
             SynthButton:
