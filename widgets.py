@@ -1,9 +1,7 @@
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
-from kivy.uix.stacklayout import StackLayout
 from kivymd.bottomsheet import MDListBottomSheet
-from kivymd.button import MDRaisedButton
 from pythonosc import udp_client
 
 from samples import sample_path
@@ -73,21 +71,19 @@ class SamplesScreen(Screen):
     pass
 
 
-class SamplesKeyboard(StackLayout):
+class SamplesKeyboard(GridLayout):
 
     def __init__(self, samples, **kwargs):
         super().__init__(**kwargs)
 
-        self.orientation = 'lr-tb'
-        self.padding = ['8dp', '12dp']
-        self.spacing = ['8dp', '5dp']
+        self.cols = 3
 
         for sample in samples:
             btn = PlayButton(text=sample)
             self.add_widget(btn)
 
 
-class PlayButton(MDRaisedButton):
+class PlayButton(Button):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
