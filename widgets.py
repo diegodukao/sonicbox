@@ -1,11 +1,27 @@
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
+from kivy.uix.togglebutton import ToggleButton
 from kivymd.bottomsheet import MDListBottomSheet
 from pythonosc import udp_client
 
 from samples import sample_path
 from synths import SCALES, SYNTHS, TONICS
+
+
+class DrumMachineScreen(Screen):
+    pass
+
+
+class DrumMachineKeyboard(GridLayout):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.cols = 8
+
+        for i in range(64):
+            self.add_widget(ToggleButton())
 
 
 class SynthsScreen(Screen):

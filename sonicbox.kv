@@ -4,6 +4,8 @@
 #:import NavigationDrawerIconButton kivymd.navigationdrawer.NavigationDrawerIconButton
 #:import Toolbar kivymd.toolbar.Toolbar
 
+#:import DrumMachineScreen widgets.DrumMachineScreen
+#:import DrumMachineKeyboard widgets.DrumMachineKeyboard
 #:import SamplesScreen widgets.SamplesScreen
 #:import SynthButton widgets.SynthButton
 #:import SynthKeyboard widgets.SynthKeyboard
@@ -20,12 +22,16 @@ NavigationLayout:
             title: "Sonicbox"
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
-            text: "Samples"
+            text: 'Samples'
             on_release: app.root.screens.current = 'samples'
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
-            text: "Synths"
+            text: 'Synths'
             on_release: app.root.screens.current = 'synths'
+        NavigationDrawerIconButton:
+            icon: 'checkbox-blank-circle'
+            text: 'Drum Machine'
+            on_release: app.root.screens.current = 'drum_machine'
 
     BoxLayout:
         orientation: 'vertical'
@@ -42,11 +48,14 @@ NavigationLayout:
         ScreenManager:
             id: scr_mngr
             size_hint_y: 0.92
+			current: 'drum_machine'
             
             SamplesScreen:
                 id: samples_screen
             SynthsScreen:
                 id: synths_screen
+			DrumMachineScreen:
+				id: drum_machine_screen
 
 
 <SamplesScreen>:
@@ -106,6 +115,28 @@ NavigationLayout:
             synth: synth_button.current
             tonic: tonic_button.current
             scale: scale_button.current
+
+
+<DrumMachineScreen>:
+	name: "drum_machine"
+
+	BoxLayout:
+		orientation: 'vertical'
+
+		BoxLayout:
+			size_hint_y: 0.2
+			orientation: 'horizontal'
+
+			Label:
+				text: 'BPM'
+			TextInput:
+			Button:
+				size_hint_x: 0.285
+				text: 'Play'
+
+		DrumMachineKeyboard:
+			size_hint_y: 0.8
+
 
 
 <PlayButton>:
