@@ -1,4 +1,6 @@
+from kivy.graphics import Color, Rectangle
 from kivy.uix.button import Button
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.togglebutton import ToggleButton
@@ -13,15 +15,32 @@ class DrumMachineScreen(Screen):
     pass
 
 
-class DrumMachineKeyboard(GridLayout):
+class DMPlayButton(Button):
+
+    def on_release(self):
+        col = self.parent.parent.parent.keyboard.children[7]
+        col.canvas.add(Color(0, 0.5, 0, 0.4))
+        col.canvas.add(Rectangle(size=col.size, pos=col.pos))
+        col.canvas.ask_update()
+
+
+class DrumMachineKeyboard(BoxLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-        self.cols = 8
+        self.orientation = "horizontal"
 
-        for i in range(64):
-            self.add_widget(ToggleButton())
+        for c in range(8):
+            column = BoxLayout(
+                orientation="vertical",
+                id="column_{}".format(c))
+
+            for l in range(8):
+                tb = ToggleButton()
+                column.add_widget(tb)
+
+            self.add_widget(column)
 
 
 class SynthsScreen(Screen):
