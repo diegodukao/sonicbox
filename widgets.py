@@ -17,10 +17,18 @@ class DrumMachineScreen(Screen):
 
 class DMPlayButton(Button):
 
+    playing = False
+
     def on_release(self):
         col = self.parent.parent.parent.keyboard.children[7]
-        col.canvas.add(Color(0, 0.5, 0, 0.4))
-        col.canvas.add(Rectangle(size=col.size, pos=col.pos))
+        if not self.playing:
+            col.canvas.add(Color(0, 0.5, 0, 0.4, group='overlay'))
+            col.canvas.add(Rectangle(size=col.size, pos=col.pos,
+                                     group='overlay'))
+            self.playing = True
+        else:
+            col.canvas.remove_group('overlay')
+            self.playing = False
         col.canvas.ask_update()
 
 
