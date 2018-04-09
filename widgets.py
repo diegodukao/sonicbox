@@ -1,3 +1,4 @@
+from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
@@ -17,21 +18,10 @@ class DrumMachineScreen(Screen):
 
 class DMPlayButton(Button):
 
-    playing = False
-
     def on_release(self):
+        # TODO: Find a better way to get the dm keyboard reference
         keyboard = self.parent.parent.parent.keyboard
-        col = keyboard.children[keyboard.current_column]
-        if not self.playing:
-            col.canvas.add(Color(0, 0.5, 0, 0.4, group='overlay'))
-            col.canvas.add(Rectangle(size=col.size, pos=col.pos,
-                                     group='overlay'))
-            self.playing = True
-        else:
-            col.canvas.remove_group('overlay')
-            keyboard.update_current_column()
-            self.playing = False
-        col.canvas.ask_update()
+        keyboard.play()
 
 
 class DrumMachineKeyboard(BoxLayout):
@@ -40,6 +30,7 @@ class DrumMachineKeyboard(BoxLayout):
         super().__init__(**kwargs)
 
         self.orientation = "horizontal"
+        self.playing = False
         self.current_column = -1
 
         for c in range(8):
@@ -62,6 +53,26 @@ class DrumMachineKeyboard(BoxLayout):
         self.current_column -= 1
         if self.current_column < 0:
             self.reset_current_column()
+
+    def update_overlay(self, dt):
+        col = self.children[self.current_column]
+        col.canvas.remove_group('overlay')
+        col.canvas.ask_update()
+        self.update_current_column()
+
+        col = self.children[self.current_column]
+        col.canvas.add(Color(0, 0.5, 0, 0.4, group='overlay'))
+        col.canvas.add(Rectangle(size=col.size, pos=col.pos,
+                                 group='overlay'))
+        col.canvas.ask_update()
+
+    def play(self):
+        col = self.children[self.current_column]
+        col.canvas.add(Color(0, 0.5, 0, 0.4, group='overlay'))
+        col.canvas.add(Rectangle(size=col.size, pos=col.pos,
+                                 group='overlay'))
+        col.canvas.ask_update()
+        Clock.schedule_interval(self.update_overlay, 0.2)
 
 
 class SynthsScreen(Screen):
