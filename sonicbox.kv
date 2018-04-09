@@ -49,14 +49,14 @@ NavigationLayout:
         ScreenManager:
             id: scr_mngr
             size_hint_y: 0.92
-			current: 'drum_machine'
+            current: 'drum_machine'
             
             SamplesScreen:
                 id: samples_screen
             SynthsScreen:
                 id: synths_screen
-			DrumMachineScreen:
-				id: drum_machine_screen
+            DrumMachineScreen:
+                id: drum_machine_screen
 
 
 <SamplesScreen>:
@@ -119,26 +119,26 @@ NavigationLayout:
 
 
 <DrumMachineScreen>:
-	name: "drum_machine"
-	keyboard: dm_keyboard
+    name: "drum_machine"
+    keyboard: dm_keyboard
 
-	BoxLayout:
-		orientation: 'vertical'
+    BoxLayout:
+        orientation: 'vertical'
 
-		BoxLayout:
-			size_hint_y: 0.2
-			orientation: 'horizontal'
+        BoxLayout:
+            size_hint_y: 0.2
+            orientation: 'horizontal'
 
-			Label:
-				text: 'BPM'
-			TextInput:
-			DMPlayButton:
-				size_hint_x: 0.285
-				text: 'Play'
+            Label:
+                text: 'BPM'
+            TextInput:
+            DMPlayButton:
+                size_hint_x: 0.285
+                text: 'Play'
 
-		DrumMachineKeyboard:
-			id: dm_keyboard
-			size_hint_y: 0.8
+        DrumMachineKeyboard:
+            id: dm_keyboard
+            size_hint_y: 0.8
 
 
 
