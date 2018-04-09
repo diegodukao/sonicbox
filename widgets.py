@@ -20,7 +20,8 @@ class DMPlayButton(Button):
     playing = False
 
     def on_release(self):
-        col = self.parent.parent.parent.keyboard.children[7]
+        keyboard = self.parent.parent.parent.keyboard
+        col = keyboard.children[keyboard.current_column]
         if not self.playing:
             col.canvas.add(Color(0, 0.5, 0, 0.4, group='overlay'))
             col.canvas.add(Rectangle(size=col.size, pos=col.pos,
@@ -28,6 +29,7 @@ class DMPlayButton(Button):
             self.playing = True
         else:
             col.canvas.remove_group('overlay')
+            keyboard.update_current_column()
             self.playing = False
         col.canvas.ask_update()
 
@@ -38,6 +40,7 @@ class DrumMachineKeyboard(BoxLayout):
         super().__init__(**kwargs)
 
         self.orientation = "horizontal"
+        self.current_column = -1
 
         for c in range(8):
             column = BoxLayout(
@@ -49,6 +52,16 @@ class DrumMachineKeyboard(BoxLayout):
                 column.add_widget(tb)
 
             self.add_widget(column)
+
+        self.reset_current_column()
+
+    def reset_current_column(self):
+        self.current_column = len(self.children) - 1
+
+    def update_current_column(self):
+        self.current_column -= 1
+        if self.current_column < 0:
+            self.reset_current_column()
 
 
 class SynthsScreen(Screen):
