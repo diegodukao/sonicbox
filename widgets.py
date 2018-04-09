@@ -54,25 +54,34 @@ class DrumMachineKeyboard(BoxLayout):
         if self.current_column < 0:
             self.reset_current_column()
 
-    def update_overlay(self, dt):
+    def add_col_overlay(self):
+        col = self.children[self.current_column]
+        col.canvas.add(Color(0, 0.5, 0, 0.4, group='overlay'))
+        col.canvas.add(Rectangle(size=col.size, pos=col.pos,
+                                 group='overlay'))
+        col.canvas.ask_update()
+
+    def remove_col_overlay(self):
         col = self.children[self.current_column]
         col.canvas.remove_group('overlay')
         col.canvas.ask_update()
-        self.update_current_column()
 
-        col = self.children[self.current_column]
-        col.canvas.add(Color(0, 0.5, 0, 0.4, group='overlay'))
-        col.canvas.add(Rectangle(size=col.size, pos=col.pos,
-                                 group='overlay'))
-        col.canvas.ask_update()
+    def update_overlay(self, dt):
+        self.remove_col_overlay()
+        self.update_current_column()
+        self.add_col_overlay()
 
     def play(self):
-        col = self.children[self.current_column]
-        col.canvas.add(Color(0, 0.5, 0, 0.4, group='overlay'))
-        col.canvas.add(Rectangle(size=col.size, pos=col.pos,
-                                 group='overlay'))
-        col.canvas.ask_update()
-        Clock.schedule_interval(self.update_overlay, 0.2)
+        if not self.playing:
+            self.add_col_overlay()
+            self.overlay_event = Clock.schedule_interval(
+                self.update_overlay, 0.2)
+            self.playing = True
+        else:
+            self.overlay_event.cancel()
+            self.remove_col_overlay()
+            self.reset_current_column()
+            self.playing = False
 
 
 class SynthsScreen(Screen):
