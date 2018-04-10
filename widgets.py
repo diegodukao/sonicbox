@@ -20,9 +20,18 @@ class DMPlayButton(Button):
 
     def on_release(self):
         # TODO: Find a better way to get the dm keyboard reference
-        keyboard = self.parent.parent.parent.keyboard
+        keyboard = self.parent.parent.parent.parent.keyboard
         dt = (60 / int(self.bpm_value) / 4)
         keyboard.play(dt)
+
+
+class DMStopButton(Button):
+
+    def on_release(self):
+        pass
+        # TODO: Find a better way to get the dm keyboard reference
+        keyboard = self.parent.parent.parent.parent.keyboard
+        keyboard.stop()
 
 
 class DrumMachineKeyboard(BoxLayout):
@@ -33,6 +42,7 @@ class DrumMachineKeyboard(BoxLayout):
         self.orientation = "horizontal"
         self.playing = False
         self.current_column = -1
+        self.dt = 0
 
         for c in range(8):
             column = BoxLayout(
@@ -77,12 +87,19 @@ class DrumMachineKeyboard(BoxLayout):
             self.add_col_overlay()
             self.overlay_event = Clock.schedule_interval(
                 self.update_overlay, dt)
+            self.dt = dt
             self.playing = True
-        else:
+        elif dt != self.dt:
             self.overlay_event.cancel()
-            self.remove_col_overlay()
-            self.reset_current_column()
-            self.playing = False
+            self.overlay_event = Clock.schedule_interval(
+                self.update_overlay, dt)
+            self.dt = dt
+
+    def stop(self):
+        self.overlay_event.cancel()
+        self.remove_col_overlay()
+        self.reset_current_column()
+        self.playing = False
 
 
 class SynthsScreen(Screen):

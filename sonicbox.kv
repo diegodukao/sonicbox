@@ -5,6 +5,7 @@
 #:import Toolbar kivymd.toolbar.Toolbar
 
 #:import DMPlayButton widgets.DMPlayButton
+#:import DMStopButton widgets.DMStopButton
 #:import DrumMachineScreen widgets.DrumMachineScreen
 #:import DrumMachineKeyboard widgets.DrumMachineKeyboard
 #:import SamplesScreen widgets.SamplesScreen
@@ -135,10 +136,15 @@ NavigationLayout:
             TextInput:
                 id: bpm_textinput
                 text: '60'
-            DMPlayButton:
+            BoxLayout:
+                orientation: 'vertical'
                 size_hint_x: 0.285
-                text: 'Play'
-                bpm_value: self.parent.bpm.text
+
+                DMPlayButton:
+                    text: 'Play'
+                    bpm_value: self.parent.parent.bpm.text
+                DMStopButton:
+                    text: 'Stop'
 
         DrumMachineKeyboard:
             id: dm_keyboard
