@@ -21,7 +21,8 @@ class DMPlayButton(Button):
     def on_release(self):
         # TODO: Find a better way to get the dm keyboard reference
         keyboard = self.parent.parent.parent.keyboard
-        keyboard.play()
+        dt = (60 / int(self.bpm_value) / 4)
+        keyboard.play(dt)
 
 
 class DrumMachineKeyboard(BoxLayout):
@@ -71,11 +72,11 @@ class DrumMachineKeyboard(BoxLayout):
         self.update_current_column()
         self.add_col_overlay()
 
-    def play(self):
+    def play(self, dt):
         if not self.playing:
             self.add_col_overlay()
             self.overlay_event = Clock.schedule_interval(
-                self.update_overlay, 0.2)
+                self.update_overlay, dt)
             self.playing = True
         else:
             self.overlay_event.cancel()

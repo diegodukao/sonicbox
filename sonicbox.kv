@@ -128,13 +128,17 @@ NavigationLayout:
         BoxLayout:
             size_hint_y: 0.2
             orientation: 'horizontal'
+            bpm: bpm_textinput
 
             Label:
                 text: 'BPM'
             TextInput:
+                id: bpm_textinput
+                text: '60'
             DMPlayButton:
                 size_hint_x: 0.285
                 text: 'Play'
+                bpm_value: self.parent.bpm.text
 
         DrumMachineKeyboard:
             id: dm_keyboard
