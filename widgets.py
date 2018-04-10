@@ -34,6 +34,24 @@ class DMStopButton(Button):
         keyboard.stop()
 
 
+class DMKeyboardColumn(BoxLayout):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.orientation = "vertical"
+
+        for i in range(8):
+            tb = ToggleButton()
+            tb.value = i
+            self.add_widget(tb)
+
+    def get_pressed_buttons(self):
+        return [button.value
+                for button in self.children
+                if button.state == 'down']
+
+
 class DrumMachineKeyboard(BoxLayout):
 
     def __init__(self, **kwargs):
@@ -45,14 +63,7 @@ class DrumMachineKeyboard(BoxLayout):
         self.dt = 0
 
         for c in range(8):
-            column = BoxLayout(
-                orientation="vertical",
-                id="column_{}".format(c))
-
-            for l in range(8):
-                tb = ToggleButton()
-                column.add_widget(tb)
-
+            column = DMKeyboardColumn()
             self.add_widget(column)
 
         self.reset_current_column()
@@ -77,10 +88,17 @@ class DrumMachineKeyboard(BoxLayout):
         col.canvas.remove_group('overlay')
         col.canvas.ask_update()
 
+    # TODO: refactor it
+    def curr_col(self):
+        return self.children[self.current_column]
+
     def update_overlay(self, dt):
         self.remove_col_overlay()
         self.update_current_column()
         self.add_col_overlay()
+        # TODO: refactor it
+        col = self.curr_col()
+        print(col.get_pressed_buttons())
 
     def play(self, dt):
         if not self.playing:
