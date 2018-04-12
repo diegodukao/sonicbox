@@ -40,6 +40,7 @@ class DMKeyboardColumn(BoxLayout):
         super().__init__(**kwargs)
 
         self.orientation = "vertical"
+        self.sender = udp_client.SimpleUDPClient("127.0.0.1", 4559)
 
         for i in range(8):
             tb = ToggleButton()
@@ -50,6 +51,12 @@ class DMKeyboardColumn(BoxLayout):
         return [button.value
                 for button in self.children
                 if button.state == 'down']
+
+    def play(self):
+        self.sender.send_message(
+            '/drum-machine',
+            self.get_pressed_buttons()
+        )
 
 
 class DrumMachineKeyboard(BoxLayout):
@@ -98,7 +105,7 @@ class DrumMachineKeyboard(BoxLayout):
         self.add_col_overlay()
         # TODO: refactor it
         col = self.curr_col()
-        print(col.get_pressed_buttons())
+        col.play()
 
     def play(self, dt):
         if not self.playing:
