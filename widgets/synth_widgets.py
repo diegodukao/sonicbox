@@ -1,3 +1,4 @@
+from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
@@ -5,6 +6,9 @@ from kivymd.bottomsheet import MDListBottomSheet
 from pythonosc import udp_client
 
 from synth import SCALES, SYNTHS, TONICS
+
+
+Builder.load_file('ui/synth_screen.kv')
 
 
 class SynthScreen(Screen):
