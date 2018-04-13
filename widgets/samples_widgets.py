@@ -5,7 +5,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
 from pythonosc import udp_client
 
-from samples import SAMPLES_GROUPS, sample_path
+from constants.samples import SAMPLES_GROUPS, sample_path
 
 
 Builder.load_file('ui/samples_screen.kv')

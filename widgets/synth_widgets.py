@@ -5,7 +5,7 @@ from kivy.uix.screenmanager import Screen
 from kivymd.bottomsheet import MDListBottomSheet
 from pythonosc import udp_client
 
-from synth import SCALES, SYNTHS, TONICS
+from constants.synth import SCALES, SYNTHS, TONICS
 
 
 Builder.load_file('ui/synth_screen.kv')
