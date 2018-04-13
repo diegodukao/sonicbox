@@ -1,0 +1,36 @@
+#:import DMPlayButton widgets.drum_machine_widgets.DMPlayButton
+#:import DMStopButton widgets.drum_machine_widgets.DMStopButton
+#:import DrumMachineScreen widgets.drum_machine_widgets.DrumMachineScreen
+#:import DrumMachineKeyboard widgets.drum_machine_widgets.DrumMachineKeyboard
+
+
+<DrumMachineScreen>:
+    name: "drum_machine"
+    keyboard: dm_keyboard
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        BoxLayout:
+            size_hint_y: 0.2
+            orientation: 'horizontal'
+            bpm: bpm_textinput
+
+            Label:
+                text: 'BPM'
+            TextInput:
+                id: bpm_textinput
+                text: '60'
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.285
+
+                DMPlayButton:
+                    text: 'Play'
+                    bpm_value: self.parent.parent.bpm.text
+                DMStopButton:
+                    text: 'Stop'
+
+        DrumMachineKeyboard:
+            id: dm_keyboard
+            size_hint_y: 0.8

@@ -4,15 +4,9 @@
 #:import NavigationDrawerIconButton kivymd.navigationdrawer.NavigationDrawerIconButton
 #:import Toolbar kivymd.toolbar.Toolbar
 
-#:import DMPlayButton widgets.drum_machine_widgets.DMPlayButton
-#:import DMStopButton widgets.drum_machine_widgets.DMStopButton
-#:import DrumMachineScreen widgets.drum_machine_widgets.DrumMachineScreen
-#:import DrumMachineKeyboard widgets.drum_machine_widgets.DrumMachineKeyboard
-#:import SamplesCarousel widgets.samples_widgets.SamplesCarousel
-#:import SamplesScreen widgets.samples_widgets.SamplesScreen
-#:import SynthButton widgets.synth_widgets.SynthButton
-#:import SynthKeyboard widgets.synth_widgets.SynthKeyboard
-#:import SynthScreen widgets.synth_widgets.SynthScreen
+#:include ui/samples_screen.kv
+#:include ui/synth_screen.kv
+#:include ui/drum_machine_screen.kv
 
 
 NavigationLayout:
@@ -57,94 +51,3 @@ NavigationLayout:
                 id: synth_screen
             DrumMachineScreen:
                 id: drum_machine_screen
-
-
-<SamplesScreen>:
-    name: 'samples'
-    samples_groups: samples_carousel
-
-    BoxLayout:
-        orientation: 'vertical'
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: 0.2
-
-            Button:
-                text: "<="
-                size_hint_x: 0.1
-                on_press: root.samples_groups.load_previous()
-            Label:
-                text: 'Samples'
-                size_hint_x: 0.8
-            Button:
-                text: "=>"
-                size_hint_x: 0.1
-                on_press: root.samples_groups.load_next()
-
-        SamplesCarousel:
-            id: samples_carousel
-            size_hint_y: 0.8
-
-
-<SynthScreen>:
-    name: "synth"
-    
-    BoxLayout:
-        orientation: 'vertical'
-        BoxLayout:
-            size_hint_y: 0.2
-            orientation: 'horizontal'
-            
-            SynthButton:
-                id: synth_button
-                current: "piano"
-                text: "Synth: {}".format(self.current)
-                on_release: self.open_bottom_sheet('synth')
-            SynthButton:
-                id: tonic_button
-                current: "c1"
-                text: "Tonic: {}".format(self.current)
-                on_release: self.open_bottom_sheet('tonics')
-            SynthButton:
-                id: scale_button
-                current: "major"
-                text: "Scale: {}".format(self.current)
-                on_release: self.open_bottom_sheet('scales')
-
-        SynthKeyboard:
-            size_hint_y: 0.8
-            synth: synth_button.current
-            tonic: tonic_button.current
-            scale: scale_button.current
-
-
-<DrumMachineScreen>:
-    name: "drum_machine"
-    keyboard: dm_keyboard
-
-    BoxLayout:
-        orientation: 'vertical'
-
-        BoxLayout:
-            size_hint_y: 0.2
-            orientation: 'horizontal'
-            bpm: bpm_textinput
-
-            Label:
-                text: 'BPM'
-            TextInput:
-                id: bpm_textinput
-                text: '60'
-            BoxLayout:
-                orientation: 'vertical'
-                size_hint_x: 0.285
-
-                DMPlayButton:
-                    text: 'Play'
-                    bpm_value: self.parent.parent.bpm.text
-                DMStopButton:
-                    text: 'Stop'
-
-        DrumMachineKeyboard:
-            id: dm_keyboard
-            size_hint_y: 0.8

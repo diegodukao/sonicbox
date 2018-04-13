@@ -1,0 +1,35 @@
+#:import SynthButton widgets.synth_widgets.SynthButton
+#:import SynthKeyboard widgets.synth_widgets.SynthKeyboard
+#:import SynthScreen widgets.synth_widgets.SynthScreen
+
+
+<SynthScreen>:
+    name: "synth"
+    
+    BoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            size_hint_y: 0.2
+            orientation: 'horizontal'
+            
+            SynthButton:
+                id: synth_button
+                current: "piano"
+                text: "Synth: {}".format(self.current)
+                on_release: self.open_bottom_sheet('synth')
+            SynthButton:
+                id: tonic_button
+                current: "c1"
+                text: "Tonic: {}".format(self.current)
+                on_release: self.open_bottom_sheet('tonics')
+            SynthButton:
+                id: scale_button
+                current: "major"
+                text: "Scale: {}".format(self.current)
+                on_release: self.open_bottom_sheet('scales')
+
+        SynthKeyboard:
+            size_hint_y: 0.8
+            synth: synth_button.current
+            tonic: tonic_button.current
+            scale: scale_button.current
