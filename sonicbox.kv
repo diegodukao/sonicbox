@@ -4,14 +4,15 @@
 #:import NavigationDrawerIconButton kivymd.navigationdrawer.NavigationDrawerIconButton
 #:import Toolbar kivymd.toolbar.Toolbar
 
-#:import DMPlayButton widgets.DMPlayButton
-#:import DMStopButton widgets.DMStopButton
-#:import DrumMachineScreen widgets.DrumMachineScreen
-#:import DrumMachineKeyboard widgets.DrumMachineKeyboard
-#:import SamplesScreen widgets.SamplesScreen
-#:import SynthButton widgets.SynthButton
-#:import SynthKeyboard widgets.SynthKeyboard
-#:import SynthsScreen widgets.SynthsScreen
+#:import DMPlayButton widgets.drum_machine_widgets.DMPlayButton
+#:import DMStopButton widgets.drum_machine_widgets.DMStopButton
+#:import DrumMachineScreen widgets.drum_machine_widgets.DrumMachineScreen
+#:import DrumMachineKeyboard widgets.drum_machine_widgets.DrumMachineKeyboard
+#:import SamplesCarousel widgets.samples_widgets.SamplesCarousel
+#:import SamplesScreen widgets.samples_widgets.SamplesScreen
+#:import SynthButton widgets.synth_widgets.SynthButton
+#:import SynthKeyboard widgets.synth_widgets.SynthKeyboard
+#:import SynthScreen widgets.synth_widgets.SynthScreen
 
 
 NavigationLayout:
@@ -28,8 +29,8 @@ NavigationLayout:
             on_release: app.root.screens.current = 'samples'
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
-            text: 'Synths'
-            on_release: app.root.screens.current = 'synths'
+            text: 'Synth'
+            on_release: app.root.screens.current = 'synth'
         NavigationDrawerIconButton:
             icon: 'checkbox-blank-circle'
             text: 'Drum Machine'
@@ -43,8 +44,6 @@ NavigationLayout:
             size_hint_y: 0.08
             title: 'Sonicbox'
             md_bg_color: app.theme_cls.primary_color
-            # background_palette: 'Primary'
-            # background_hue: '500'
             left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
 
         ScreenManager:
@@ -54,8 +53,8 @@ NavigationLayout:
             
             SamplesScreen:
                 id: samples_screen
-            SynthsScreen:
-                id: synths_screen
+            SynthScreen:
+                id: synth_screen
             DrumMachineScreen:
                 id: drum_machine_screen
 
@@ -87,8 +86,8 @@ NavigationLayout:
             size_hint_y: 0.8
 
 
-<SynthsScreen>:
-    name: "synths"
+<SynthScreen>:
+    name: "synth"
     
     BoxLayout:
         orientation: 'vertical'
@@ -100,7 +99,7 @@ NavigationLayout:
                 id: synth_button
                 current: "piano"
                 text: "Synth: {}".format(self.current)
-                on_release: self.open_bottom_sheet('synths')
+                on_release: self.open_bottom_sheet('synth')
             SynthButton:
                 id: tonic_button
                 current: "c1"
