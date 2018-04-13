@@ -174,6 +174,9 @@ class NoteButton(Button):
         self.note = note
         # self.text = str(note)
 
+    def on_press(self):
+        self.play()
+
     def play(self):
         self.sender.send_message(
             '/synth',
@@ -207,6 +210,9 @@ class PlayButton(Button):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.sender = udp_client.SimpleUDPClient("127.0.0.1", 4559)
+
+    def on_press(self):
+        self.play()
 
     def play(self):
         self.sender.send_message('/sample', sample_path(self.text))
