@@ -1,3 +1,4 @@
+from kivy.lang import Builder
 from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 from kivy.uix.button import Button
@@ -5,6 +6,9 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.togglebutton import ToggleButton
 from pythonosc import udp_client
+
+
+Builder.load_file('ui/drum_machine_screen.kv')
 
 
 class DrumMachineScreen(Screen):
