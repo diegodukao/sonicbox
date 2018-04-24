@@ -1,9 +1,9 @@
+from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.uix.carousel import Carousel
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
-from pythonosc import udp_client
 
 from constants.samples import SAMPLES_GROUPS
 
@@ -43,7 +43,8 @@ class PlayButton(Button):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.sender = udp_client.SimpleUDPClient("127.0.0.1", 4559)
+        app = App.get_running_app()
+        self.sender = app.sender
 
     def on_press(self):
         self.play()

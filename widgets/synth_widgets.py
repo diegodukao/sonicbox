@@ -1,9 +1,9 @@
+from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
 from kivymd.bottomsheet import MDListBottomSheet
-from pythonosc import udp_client
 
 from constants.synth import SCALES, SYNTHS, TONICS
 
@@ -54,7 +54,8 @@ class NoteButton(Button):
 
     def __init__(self, note, **kwargs):
         super().__init__(**kwargs)
-        self.sender = udp_client.SimpleUDPClient("127.0.0.1", 4559)
+        app = App.get_running_app()
+        self.sender = app.sender
         self.note = note
 
     def on_press(self):

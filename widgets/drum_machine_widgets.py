@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.lang import Builder
 from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
@@ -5,7 +6,6 @@ from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.togglebutton import ToggleButton
-from pythonosc import udp_client
 
 
 Builder.load_file('ui/drum_machine_screen.kv')
@@ -36,7 +36,8 @@ class DMKeyboardColumn(BoxLayout):
         super().__init__(**kwargs)
 
         self.orientation = "vertical"
-        self.sender = udp_client.SimpleUDPClient("127.0.0.1", 4559)
+        app = App.get_running_app()
+        self.sender = app.sender
 
         for i in range(8):
             tb = ToggleButton()
