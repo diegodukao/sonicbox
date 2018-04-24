@@ -18,8 +18,7 @@ class DrumMachineScreen(Screen):
 class DMPlayButton(Button):
 
     def on_release(self):
-        # TODO: Find a better way to get the dm keyboard reference
-        keyboard = self.parent.parent.parent.parent.keyboard
+        keyboard = self.parent.keyboard
         dt = (60 / int(self.bpm_value) / 4)
         keyboard.play(dt)
 
@@ -27,9 +26,7 @@ class DMPlayButton(Button):
 class DMStopButton(Button):
 
     def on_release(self):
-        pass
-        # TODO: Find a better way to get the dm keyboard reference
-        keyboard = self.parent.parent.parent.parent.keyboard
+        keyboard = self.parent.keyboard
         keyboard.stop()
 
 

@@ -1,6 +1,7 @@
 <DrumMachineScreen>:
     name: "drum_machine"
     keyboard: dm_keyboard
+    bpm: bpm_textinput
 
     BoxLayout:
         orientation: 'vertical'
@@ -8,7 +9,6 @@
         BoxLayout:
             size_hint_y: 0.2
             orientation: 'horizontal'
-            bpm: bpm_textinput
 
             Label:
                 text: 'BPM'
@@ -18,10 +18,11 @@
             BoxLayout:
                 orientation: 'vertical'
                 size_hint_x: 0.285
+                keyboard: root.keyboard
 
                 DMPlayButton:
                     text: 'Play'
-                    bpm_value: self.parent.parent.bpm.text
+                    bpm_value: root.bpm.text
                 DMStopButton:
                     text: 'Stop'
 
