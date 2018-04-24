@@ -1,9 +1,3 @@
-def sample_path(sample_str):
-    path = '/home/diego/Applications/src/sonic-pi/etc/samples/'
-    ext = ".flac"
-    return "{}{}{}".format(path, sample_str, ext)
-
-
 AMBIENT_SOUNDS = [
     'ambi_soft_buzz',
     'ambi_swoosh',

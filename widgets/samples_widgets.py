@@ -5,7 +5,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
 from pythonosc import udp_client
 
-from constants.samples import SAMPLES_GROUPS, sample_path
+from constants.samples import SAMPLES_GROUPS
 
 
 Builder.load_file('ui/samples_screen.kv')
@@ -49,4 +49,4 @@ class PlayButton(Button):
         self.play()
 
     def play(self):
-        self.sender.send_message('/sample', sample_path(self.text))
+        self.sender.send_message('/sample', self.text)
