@@ -46,12 +46,22 @@ class DMKeyboardColumn(BoxLayout):
             tb.value = i
             self.add_widget(tb)
 
+    def add_overlay(self):
+        self.canvas.add(Color(0, 0.5, 0, 0.4, group='overlay'))
+        self.canvas.add(Rectangle(size=self.size, pos=self.pos,
+                                  group='overlay'))
+        self.canvas.ask_update()
+
+    def remove_overlay(self):
+        self.canvas.remove_group('overlay')
+        self.canvas.ask_update()
+
     def get_pressed_buttons(self):
         return [button.value
                 for button in self.children
                 if button.state == 'down']
 
-    def play(self):
+    def send_notes(self):
         self.sender.send_message(
             '/drum-machine',
             self.get_pressed_buttons()
@@ -65,8 +75,9 @@ class DrumMachineKeyboard(BoxLayout):
 
         self.orientation = "horizontal"
         self.playing = False
-        self.current_column = -1
+        self.current_column_number = -1
         self.dt = 0
+        self.column_event = None
 
         for c in range(8):
             column = DMKeyboardColumn()
@@ -75,52 +86,39 @@ class DrumMachineKeyboard(BoxLayout):
         self.reset_current_column()
 
     def reset_current_column(self):
-        self.current_column = len(self.children) - 1
+        self.current_column_number = len(self.children) - 1
 
     def update_current_column(self):
-        self.current_column -= 1
-        if self.current_column < 0:
+        self.current_column_number -= 1
+        if self.current_column_number < 0:
             self.reset_current_column()
 
-    def add_col_overlay(self):
-        col = self.children[self.current_column]
-        col.canvas.add(Color(0, 0.5, 0, 0.4, group='overlay'))
-        col.canvas.add(Rectangle(size=col.size, pos=col.pos,
-                                 group='overlay'))
-        col.canvas.ask_update()
+    @property
+    def curr_column(self):
+        return self.children[self.current_column_number]
 
-    def remove_col_overlay(self):
-        col = self.children[self.current_column]
-        col.canvas.remove_group('overlay')
-        col.canvas.ask_update()
+    def column_callback(self, dt):
+        self.curr_column.remove_overlay()
 
-    # TODO: refactor it
-    def curr_col(self):
-        return self.children[self.current_column]
-
-    def update_overlay(self, dt):
-        self.remove_col_overlay()
         self.update_current_column()
-        self.add_col_overlay()
-        # TODO: refactor it
-        col = self.curr_col()
-        col.play()
+        self.curr_column.add_overlay()
+        self.curr_column.send_notes()
 
     def play(self, dt):
         if not self.playing:
-            self.add_col_overlay()
-            self.overlay_event = Clock.schedule_interval(
-                self.update_overlay, dt)
+            self.curr_column.add_overlay()
+            self.column_event = Clock.schedule_interval(
+                self.column_callback, dt)
             self.dt = dt
             self.playing = True
         elif dt != self.dt:
-            self.overlay_event.cancel()
-            self.overlay_event = Clock.schedule_interval(
-                self.update_overlay, dt)
+            self.column_event.cancel()
+            self.column_event = Clock.schedule_interval(
+                self.column_callback, dt)
             self.dt = dt
 
     def stop(self):
-        self.overlay_event.cancel()
-        self.remove_col_overlay()
+        self.column_event.cancel()
+        self.curr_column.remove_overlay()
         self.reset_current_column()
         self.playing = False
