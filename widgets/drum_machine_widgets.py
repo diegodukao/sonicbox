@@ -81,30 +81,32 @@ class DrumMachineKeyboard(BoxLayout):
             column = DMKeyboardColumn()
             self.add_widget(column)
 
-        self.reset_current_column()
+        self.reset_current_column_number()
 
-    def reset_current_column(self):
+    def reset_current_column_number(self):
         self.current_column_number = len(self.children) - 1
 
-    def update_current_column(self):
+    def update_current_column_number(self):
         self.current_column_number -= 1
         if self.current_column_number < 0:
-            self.reset_current_column()
+            self.reset_current_column_number()
 
     @property
     def curr_column(self):
         return self.children[self.current_column_number]
 
-    def column_callback(self, dt):
-        self.curr_column.remove_overlay()
-
-        self.update_current_column()
+    def play_curr_column(self):
         self.curr_column.add_overlay()
         self.curr_column.send_notes()
 
+    def column_callback(self, dt):
+        self.curr_column.remove_overlay()
+        self.update_current_column_number()
+        self.play_curr_column()
+
     def play(self, dt):
         if not self.playing:
-            self.curr_column.add_overlay()
+            self.play_curr_column()
             self.column_event = Clock.schedule_interval(
                 self.column_callback, dt)
             self.dt = dt
@@ -118,5 +120,5 @@ class DrumMachineKeyboard(BoxLayout):
     def stop(self):
         self.column_event.cancel()
         self.curr_column.remove_overlay()
-        self.reset_current_column()
+        self.reset_current_column_number()
         self.playing = False
