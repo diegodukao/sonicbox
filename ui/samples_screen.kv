@@ -1,6 +1,6 @@
 <SamplesScreen>:
     name: 'samples'
-    samples_groups: samples_carousel
+    carousel: samples_carousel
 
     BoxLayout:
         orientation: 'vertical'
@@ -11,14 +11,14 @@
             Button:
                 text: "<="
                 size_hint_x: 0.1
-                on_press: root.samples_groups.load_previous()
+                on_press: root.carousel.load_previous()
             Label:
-                text: 'Samples'
+                text: root.carousel.title
                 size_hint_x: 0.8
             Button:
                 text: "=>"
                 size_hint_x: 0.1
-                on_press: root.samples_groups.load_next()
+                on_press: root.carousel.load_next()
 
         SamplesCarousel:
             id: samples_carousel

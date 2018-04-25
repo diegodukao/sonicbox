@@ -1,3 +1,6 @@
+from collections import namedtuple
+
+
 AMBIENT_SOUNDS = [
     'ambi_soft_buzz',
     'ambi_swoosh',
@@ -175,17 +178,18 @@ VINYL_SOUNDS = [
 ]
 
 
+SamplesGroup = namedtuple('SamplesGroup', 'name, samples')
 SAMPLES_GROUPS = [
-    AMBIENT_SOUNDS,
-    BASS_DRUMS,
-    BASS_SOUNDS,
-    DRUM_SOUNDS,
-    ELECTRIC_SOUNDS,
-    MISC_SOUNDS,
-    PERCUSSIVE_SOUNDS,
-    SNARE_DRUMS,
-    SOUNDS_GUITARS,
-    SOUNDS_LOOPING,
-    SOUNDS_TABLA_DRUM,
-    VINYL_SOUNDS,
+    SamplesGroup("Ambient Sounds", AMBIENT_SOUNDS),
+    SamplesGroup("Bass Drums", BASS_DRUMS),
+    SamplesGroup("Bass Sounds", BASS_SOUNDS),
+    SamplesGroup("Drum Sounds", DRUM_SOUNDS),
+    SamplesGroup("Electric Sounds", ELECTRIC_SOUNDS),
+    SamplesGroup("Miscellaneous Sounds", MISC_SOUNDS),
+    SamplesGroup("Percussive Sounds", PERCUSSIVE_SOUNDS),
+    SamplesGroup("Snare Drums", SNARE_DRUMS),
+    SamplesGroup("Sounds featuring guitars", SOUNDS_GUITARS),
+    SamplesGroup("Sounds for Looping", SOUNDS_LOOPING),
+    SamplesGroup("Sounds of a Tabla Drum", SOUNDS_TABLA_DRUM),
+    SamplesGroup("Vinyl Sounds", VINYL_SOUNDS),
 ]
