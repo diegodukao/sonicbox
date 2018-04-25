@@ -24,11 +24,11 @@ class SynthButton(Button):
         bs = MDListBottomSheet()
 
         if option == 'synth':
-            items = SYNTHS
+            items = sorted(SYNTHS)
         elif option == 'tonics':
             items = TONICS
         elif option == 'scales':
-            items = SCALES
+            items = sorted(SCALES)
         else:
             raise Exception
 

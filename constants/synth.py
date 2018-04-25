@@ -29,8 +29,6 @@ SYNTHS = [
     'dark_ambience',
     'growl',
     'hollow',
-    'mono_player',
-    'stereo_player',
     'blade',
     'piano',
     'pluck',
