@@ -54,11 +54,10 @@ class PlayButton(Button):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        app = App.get_running_app()
-        self.sender = app.sender
+        self.app = App.get_running_app()
 
     def on_press(self):
         self.play()
 
     def play(self):
-        self.sender.send_message('/sample', self.text)
+        self.app.sender.send_message('/sample', self.text)

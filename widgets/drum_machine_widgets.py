@@ -36,8 +36,7 @@ class DMKeyboardColumn(BoxLayout):
         super().__init__(**kwargs)
 
         self.orientation = "vertical"
-        app = App.get_running_app()
-        self.sender = app.sender
+        self.app = App.get_running_app()
 
         for i in range(8):
             tb = ToggleButton()
@@ -60,7 +59,7 @@ class DMKeyboardColumn(BoxLayout):
                 if button.state == 'down']
 
     def send_notes(self):
-        self.sender.send_message(
+        self.app.sender.send_message(
             '/drum-machine',
             self.get_pressed_buttons()
         )

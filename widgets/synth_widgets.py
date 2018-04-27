@@ -54,15 +54,14 @@ class NoteButton(Button):
 
     def __init__(self, note, **kwargs):
         super().__init__(**kwargs)
-        app = App.get_running_app()
-        self.sender = app.sender
+        self.app = App.get_running_app()
         self.note = note
 
     def on_press(self):
         self.play()
 
     def play(self):
-        self.sender.send_message(
+        self.app.sender.send_message(
             '/synth',
             [
                 self.parent.synth,
