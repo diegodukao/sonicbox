@@ -12,10 +12,13 @@ class SonicBox(App):
     theme_cls = ThemeManager()
     _sender = None
 
+    def create_sender(self, ip):
+        self._sender = udp_client.SimpleUDPClient(ip, 4559)
+
     @property
     def sender(self):
         if not self._sender:
-            self._sender = udp_client.SimpleUDPClient("127.0.0.1", 4559)
+            self.create_sender("127.0.0.1")
         return self._sender
 
     def build(self):
