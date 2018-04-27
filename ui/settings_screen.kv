@@ -1,0 +1,19 @@
+<SettingsScreen>:
+    name: 'settings'
+    host_ip: host_ip_textinput
+
+    BoxLayout:
+        orientation: 'horizontal'
+        y: root.height - self.height
+        size_hint_y: 0.1
+        Label:
+            text: 'Sonic Pi host IP'
+            size_hint_x: 0.5
+        TextInput:
+            id: host_ip_textinput
+            text: '127.0.0.1'
+            size_hint_x: 0.3
+        Button:
+            text: 'Save'
+            size_hint_x: 0.2
+            on_press: root.update_sender(root.host_ip.text)

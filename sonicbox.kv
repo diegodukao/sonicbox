@@ -5,6 +5,7 @@
 #:import Toolbar kivymd.toolbar.Toolbar
 
 #:import SamplesScreen widgets.samples_widgets.SamplesScreen
+#:import SettingsScreen widgets.settings_widgets.SettingsScreen
 #:import SynthScreen widgets.synth_widgets.SynthScreen
 #:import DrumMachineScreen widgets.drum_machine_widgets.DrumMachineScreen
 
@@ -29,6 +30,10 @@ NavigationLayout:
             icon: 'checkbox-blank-circle'
             text: 'Drum Machine'
             on_release: app.root.screens.current = 'drum_machine'
+        NavigationDrawerIconButton:
+            icon: 'checkbox-blank-circle'
+            text: 'Settings'
+            on_release: app.root.screens.current = 'settings'
 
     BoxLayout:
         orientation: 'vertical'
@@ -51,3 +56,5 @@ NavigationLayout:
                 id: synth_screen
             DrumMachineScreen:
                 id: drum_machine_screen
+			SettingsScreen:
+				id: settings_screen
