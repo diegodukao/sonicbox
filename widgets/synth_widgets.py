@@ -18,10 +18,24 @@ class SynthScreen(Screen):
 
 class SynthButton(Button):
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        self.bottom_sheets = {
+            "synth": self._create_bottom_sheet("synth"),
+            "tonics": self._create_bottom_sheet("tonics"),
+            "scales": self._create_bottom_sheet("scales"),
+        }
+
     def change_current(self, new_value):
         self.current = new_value
 
     def open_bottom_sheet(self, option):
+        bs = self.bottom_sheets[option]
+
+        bs.open()
+
+    def _create_bottom_sheet(self, option):
         bs = MDListBottomSheet()
 
         if option == 'synth':
@@ -37,7 +51,7 @@ class SynthButton(Button):
             bs.add_item(item, lambda x: self.change_current(x.text),
                         icon='nfc')
 
-        bs.open()
+        return bs
 
 
 class SynthKeyboard(GridLayout):
