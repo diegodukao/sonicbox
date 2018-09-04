@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.graphics import Ellipse
 from kivy.lang import Builder
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
@@ -56,6 +57,19 @@ class NoteButton(Button):
         super().__init__(**kwargs)
         self.app = App.get_running_app()
         self.note = note
+
+        if note % 5 == 0:
+            with self.canvas:
+                self.circle = Ellipse()
+
+            self.bind(pos=self.update_circle,
+                      size=self.update_circle)
+
+    def update_circle(self, *args):
+        diameter = self.height / 2
+        self.circle.size = diameter, diameter
+        self.circle.pos = (self.center[0] - diameter / 2,
+                           self.center[1] - diameter / 2)
 
     def on_press(self):
         self.play()
