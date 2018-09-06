@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.graphics import Ellipse
 from kivy.lang import Builder
+from kivy.properties import StringProperty
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
@@ -17,6 +18,7 @@ class SynthScreen(Screen):
 
 
 class SynthButton(Button):
+    current = StringProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -55,14 +57,23 @@ class SynthButton(Button):
 
 
 class SynthKeyboard(GridLayout):
+    synth = StringProperty()
+    tonic = StringProperty()
+    scale = StringProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         self.cols = 7
 
+        nb_list = []
         for i in range(49):
-            self.add_widget(NoteButton(i))
+            nb = NoteButton(i)
+            self.add_widget(nb)
+            nb_list.append(nb)
+
+        for nb in nb_list:
+            self.bind(scale=nb.update_circle)
 
 
 class NoteButton(Button):
@@ -72,18 +83,25 @@ class NoteButton(Button):
         self.app = App.get_running_app()
         self.note = note
 
-        if note % 5 == 0:
-            with self.canvas:
-                self.circle = Ellipse()
+        with self.canvas:
+            self.circle = Ellipse()
 
-            self.bind(pos=self.update_circle,
-                      size=self.update_circle)
+        self.bind(pos=self.update_circle,
+                  size=self.update_circle)
 
     def update_circle(self, *args):
-        diameter = self.height / 2
-        self.circle.size = diameter, diameter
-        self.circle.pos = (self.center[0] - diameter / 2,
-                           self.center[1] - diameter / 2)
+        # TODO: erase circle from canvas when updating scale
+
+        # TODO: use number of notes of the scale to determine where to draw
+        # the circle
+        # if self.note % SCALES[self.parent.scale] == 0:
+        if self.note % 5 == 0:
+            diameter = self.height / 2
+            self.circle.size = diameter, diameter
+            self.circle.pos = (self.center[0] - diameter / 2,
+                               self.center[1] - diameter / 2)
+        else:
+            self.circle.size = (0, 0)
 
     def on_press(self):
         self.play()
