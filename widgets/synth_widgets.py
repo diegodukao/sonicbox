@@ -43,7 +43,7 @@ class SynthButton(Button):
         elif option == 'tonics':
             items = TONICS
         elif option == 'scales':
-            items = sorted(SCALES)
+            items = [scale_name for scale_name in sorted(SCALES.keys())]
         else:
             raise Exception
 
