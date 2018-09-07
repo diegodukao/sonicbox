@@ -66,14 +66,16 @@ class SynthKeyboard(GridLayout):
 
         self.cols = 7
 
-        nb_list = []
+        note_button_list = []
         for i in range(49):
-            nb = NoteButton(i)
-            self.add_widget(nb)
-            nb_list.append(nb)
+            note_button = NoteButton(i)
+            self.add_widget(note_button)
+            note_button_list.append(note_button)
 
-        for nb in nb_list:
-            self.bind(scale=nb.update_circle)
+        # when the synth scale is changed, the circles that mark the octaves on
+        # the NoteButtons will be updated
+        for nb in note_button_list:
+            self.bind(scale=nb.draw_circle)
 
 
 class NoteButton(Button):
@@ -83,28 +85,25 @@ class NoteButton(Button):
         self.app = App.get_running_app()
         self.note = note
 
-        with self.canvas:
-            self.circle = Ellipse()
+        self.circle = Ellipse()
 
         self.bind(pos=self.update_circle,
                   size=self.update_circle)
 
-    def update_circle(self, *args):
-        # TODO: erase circle from canvas when updating scale
-
-        # TODO: use number of notes of the scale to determine where to draw
-        # the circle
-        # if self.note % SCALES[self.parent.scale] == 0:
-        if self.note % 5 == 0:
-            diameter = self.height / 2
-            self.circle.size = diameter, diameter
-            self.circle.pos = (self.center[0] - diameter / 2,
-                               self.center[1] - diameter / 2)
-        else:
-            self.circle.size = (0, 0)
-
     def on_press(self):
         self.play()
+
+    def update_circle(self, *args):
+        diameter = self.height / 2
+        self.circle.size = diameter, diameter
+        self.circle.pos = (self.center[0] - diameter / 2,
+                           self.center[1] - diameter / 2)
+
+    def draw_circle(self, *args):
+        if self._is_octave(self.note):
+            self._draw_on_canvas(self.circle)
+        else:
+            self._erase_from_canvas(self.circle)
 
     def play(self):
         self.app.sender.send_message(
@@ -116,3 +115,14 @@ class NoteButton(Button):
                 self.note,
             ]
         )
+
+    def _is_octave(self, note):
+        return bool(self.note % SCALES[self.parent.scale] == 0)
+
+    def _draw_on_canvas(self, instruction):
+        if instruction not in self.canvas.children:
+            self.canvas.add(instruction)
+
+    def _erase_from_canvas(self, instruction):
+        if instruction in self.canvas.children:
+            self.canvas.remove(instruction)
