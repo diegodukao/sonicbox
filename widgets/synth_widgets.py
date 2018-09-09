@@ -2,11 +2,14 @@ from kivy.app import App
 from kivy.graphics import Ellipse
 from kivy.lang import Builder
 from kivy.properties import StringProperty
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivymd.bottomsheet import MDListBottomSheet
+from kivymd.menu import MDDropdownMenu
+from kivymd.selectioncontrols import MDCheckbox  # NOQA
 
 from constants.synth import SCALES, SYNTHS, TONICS
 
@@ -14,8 +17,19 @@ from constants.synth import SCALES, SYNTHS, TONICS
 Builder.load_file('ui/synth_screen.kv')
 
 
-class SynthScreen(Screen):
+class DropdownMenuCheckbox(BoxLayout):
     pass
+
+
+class SynthScreen(Screen):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        menu_items = [
+            {'viewclass': 'DropdownMenuCheckbox'},
+        ]
+        self.dropdown = SynthSettingsDropdown(
+            items=menu_items, width_mult=4)
 
 
 class SynthButton(Button):
@@ -143,3 +157,7 @@ class NoteButton(Button):
     def _erase_from_canvas(self, instruction):
         if instruction in self.canvas.children:
             self.canvas.remove(instruction)
+
+
+class SynthSettingsDropdown(MDDropdownMenu):
+    pass

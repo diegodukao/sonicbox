@@ -43,13 +43,14 @@ NavigationLayout:
             size_hint_y: 0.08
             title: 'Sonicbox'
             md_bg_color: app.theme_cls.primary_color
-            left_action_items: [['menu', lambda x: app.root.toggle_nav_drawer()]]
-			right_action_items: [['dots-vertical', lambda x: print(x)]]
+            left_action_items: [['menu', lambda left_menu_btn: app.root.toggle_nav_drawer()]]
+            right_action_items: [['dots-vertical', lambda right_menu_btn: app.root.screens.synth.dropdown.open(right_menu_btn)]]
 
         ScreenManager:
             id: scr_mngr
             size_hint_y: 0.92
             current: 'synth'
+			synth: synth_screen
 
             SynthScreen:
                 id: synth_screen
