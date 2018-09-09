@@ -4,6 +4,7 @@ from kivy.lang import Builder
 from kivy.properties import StringProperty
 from kivy.uix.button import Button
 from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from kivymd.bottomsheet import MDListBottomSheet
 
@@ -78,6 +79,10 @@ class SynthKeyboard(GridLayout):
             self.bind(scale=nb.draw_circle)
 
 
+class NoteLabel(Label):
+    pass
+
+
 class NoteButton(Button):
 
     def __init__(self, note, **kwargs):
@@ -86,9 +91,13 @@ class NoteButton(Button):
         self.note = note
 
         self.circle = Ellipse()
-
         self.bind(pos=self.update_circle,
                   size=self.update_circle)
+
+        self.note_label = NoteLabel()
+        self.add_widget(self.note_label)
+        self.bind(pos=self.update_note_label,
+                  size=self.update_note_label)
 
     def on_press(self):
         self.play()
@@ -100,10 +109,17 @@ class NoteButton(Button):
                            self.center[1] - diameter / 2)
 
     def draw_circle(self, *args):
-        if self._is_octave(self.note):
+        self.note_label.text = str(
+            self.note % SCALES[self.parent.scale] + 1)
+
+        if self._is_octave:
             self._draw_on_canvas(self.circle)
         else:
             self._erase_from_canvas(self.circle)
+
+    def update_note_label(self, *args):
+        self.note_label.size = self.size
+        self.note_label.pos = self.pos
 
     def play(self):
         self.app.sender.send_message(
@@ -116,7 +132,8 @@ class NoteButton(Button):
             ]
         )
 
-    def _is_octave(self, note):
+    @property
+    def _is_octave(self):
         return bool(self.note % SCALES[self.parent.scale] == 0)
 
     def _draw_on_canvas(self, instruction):

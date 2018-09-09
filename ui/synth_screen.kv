@@ -1,12 +1,12 @@
 <SynthScreen>:
     name: "synth"
-    
+
     BoxLayout:
         orientation: 'vertical'
         BoxLayout:
             size_hint_y: 0.2
             orientation: 'horizontal'
-            
+
             SynthButton:
                 id: synth_button
                 current: "piano"
@@ -28,3 +28,10 @@
             synth: synth_button.current
             tonic: tonic_button.current
             scale: scale_button.current
+
+
+<NoteLabel>:
+	text_size: self.size
+	valign: "top"
+	padding_x: '6'
+	padding_y: '2'
