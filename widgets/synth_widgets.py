@@ -1,6 +1,7 @@
 from kivy.app import App
 from kivy.graphics import Ellipse
 from kivy.lang import Builder
+from kivy.properties import BooleanProperty
 from kivy.properties import StringProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
@@ -18,7 +19,11 @@ Builder.load_file('ui/synth_screen.kv')
 
 
 class DropdownMenuCheckbox(BoxLayout):
-    pass
+    show_notes = BooleanProperty()
+
+    def on_show_notes(self, instance, value):
+        app = App.get_running_app()
+        app.root.screens.synth.keyboard.show_notes = value
 
 
 class SynthScreen(Screen):
@@ -75,6 +80,7 @@ class SynthKeyboard(GridLayout):
     synth = StringProperty()
     tonic = StringProperty()
     scale = StringProperty()
+    show_notes = BooleanProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -91,6 +97,7 @@ class SynthKeyboard(GridLayout):
         # the NoteButtons will be updated
         for nb in note_button_list:
             self.bind(scale=nb.draw_circle)
+            self.bind(show_notes=nb.toggle_note_label)
 
 
 class NoteLabel(Label):
@@ -112,6 +119,12 @@ class NoteButton(Button):
         self.add_widget(self.note_label)
         self.bind(pos=self.update_note_label,
                   size=self.update_note_label)
+
+    def toggle_note_label(self, caller, show_notes):
+        if show_notes and self.note_label not in self.children:
+            self.add_widget(self.note_label)
+        elif not show_notes and self.note_label in self.children:
+            self.remove_widget(self.note_label)
 
     def on_press(self):
         self.play()
