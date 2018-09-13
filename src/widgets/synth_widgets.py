@@ -125,6 +125,7 @@ class NoteButton(Button):
 
     def toggle_note_label(self, caller, show_notes):
         if show_notes and self.note_label not in self.children:
+            self.update_note_label_text()
             self.add_widget(self.note_label)
         elif not show_notes and self.note_label in self.children:
             self.remove_widget(self.note_label)
@@ -149,11 +150,12 @@ class NoteButton(Button):
         self.note_label.pos = self.pos
 
     def update_note_label_text(self, *args):
-        tonic = self.parent.tonic
-        scale = self.parent.scale
-        degree = self.note % SCALES[self.parent.scale]  # TODO: refactor
-        self.note_label.text = get_note(tonic=tonic, scale=scale,
-                                        degree=degree)
+        if self.parent.show_notes:
+            tonic = self.parent.tonic
+            scale = self.parent.scale
+            degree = self.note % SCALES[self.parent.scale]  # TODO: refactor
+            self.note_label.text = get_note(
+                tonic=tonic, scale=scale, degree=degree)
 
     def play(self):
         self.app.sender.send_message(
