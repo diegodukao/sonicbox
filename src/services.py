@@ -1,7 +1,9 @@
+from functools import lru_cache
+
 from pytheory import TonedScale
 
 
-# TODO: make it faster. cache?
+@lru_cache()
 def get_note(tonic, scale, degree):
     tonic = tonic.upper()
 
