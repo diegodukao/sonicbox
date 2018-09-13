@@ -13,6 +13,7 @@ from kivymd.menu import MDDropdownMenu
 from kivymd.selectioncontrols import MDCheckbox  # NOQA
 
 from constants.synth import SCALES, SYNTHS, TONICS
+from services import get_note
 
 
 Builder.load_file('ui/synth_screen.kv')
@@ -96,6 +97,8 @@ class SynthKeyboard(GridLayout):
         # when the synth scale is changed, the circles that mark the octaves on
         # the NoteButtons will be updated
         for nb in note_button_list:
+            self.bind(tonic=nb.update_note_label_text,
+                      scale=nb.update_note_label_text)
             self.bind(scale=nb.draw_circle)
             self.bind(show_notes=nb.toggle_note_label)
 
@@ -117,8 +120,8 @@ class NoteButton(Button):
 
         self.note_label = NoteLabel()
         self.add_widget(self.note_label)
-        self.bind(pos=self.update_note_label,
-                  size=self.update_note_label)
+        self.bind(pos=self.update_note_label_pos,
+                  size=self.update_note_label_pos)
 
     def toggle_note_label(self, caller, show_notes):
         if show_notes and self.note_label not in self.children:
@@ -136,17 +139,21 @@ class NoteButton(Button):
                            self.center[1] - diameter / 2)
 
     def draw_circle(self, *args):
-        self.note_label.text = str(
-            self.note % SCALES[self.parent.scale] + 1)
-
         if self._is_octave:
             self._draw_on_canvas(self.circle)
         else:
             self._erase_from_canvas(self.circle)
 
-    def update_note_label(self, *args):
+    def update_note_label_pos(self, *args):
         self.note_label.size = self.size
         self.note_label.pos = self.pos
+
+    def update_note_label_text(self, *args):
+        tonic = self.parent.tonic
+        scale = self.parent.scale
+        degree = self.note % SCALES[self.parent.scale]  # TODO: refactor
+        self.note_label.text = get_note(tonic=tonic, scale=scale,
+                                        degree=degree)
 
     def play(self):
         self.app.sender.send_message(
