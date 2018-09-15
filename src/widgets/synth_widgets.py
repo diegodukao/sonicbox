@@ -158,11 +158,13 @@ class NoteButton(Button):
                 tonic=tonic, scale=scale, degree=degree)
 
     def play(self):
+        tonic = self.parent.tonic.replace('#', 's')
+
         self.app.sender.send_message(
             '/synth',
             [
                 self.parent.synth,
-                self.parent.tonic,
+                tonic,
                 self.parent.scale,
                 self.note,
             ]
