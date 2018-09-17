@@ -1,6 +1,6 @@
 from unittest.mock import Mock, patch
 
-from services import get_note_name
+from services import get_note_name, is_octave
 
 
 class TestGetNoteName:
@@ -36,3 +36,12 @@ class TestGetNoteName:
         get_note_name(tonic="N1", scale="fake_scale", degree=0)
         # still called just once
         mock_t_scale.assert_called_once_with(tonic="N1")
+
+
+class TestIsOctave:
+
+    def test_is_octave(self):
+        assert is_octave(14, "minor")
+        assert not is_octave(9, "major")
+        assert is_octave(18, "blues_minor")
+        assert not is_octave(21, "minor_pentatonic")
