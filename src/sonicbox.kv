@@ -4,6 +4,7 @@
 #:import NavigationDrawerIconButton kivymd.navigationdrawer.NavigationDrawerIconButton
 #:import Toolbar kivymd.toolbar.Toolbar
 
+#:import CustomScreenManager widgets.root_widgets.CustomScreenManager
 #:import SamplesScreen widgets.samples_widgets.SamplesScreen
 #:import SettingsScreen widgets.settings_widgets.SettingsScreen
 #:import SynthScreen widgets.synth_widgets.SynthScreen
@@ -44,9 +45,9 @@ NavigationLayout:
             title: 'Sonicbox'
             md_bg_color: app.theme_cls.primary_color
             left_action_items: [['menu', lambda left_menu_btn: app.root.toggle_nav_drawer()]]
-            right_action_items: [['dots-vertical', lambda right_menu_btn: app.root.screens.synth.dropdown.open(right_menu_btn)]]
+            right_action_items: [['dots-vertical', lambda right_menu_btn: app.root.screens.open_dropdown(right_menu_btn)]]
 
-        ScreenManager:
+        CustomScreenManager:
             id: scr_mngr
             size_hint_y: 0.92
             current: 'synth'
