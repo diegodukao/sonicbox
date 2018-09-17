@@ -13,7 +13,7 @@ from kivymd.menu import MDDropdownMenu
 from kivymd.selectioncontrols import MDCheckbox  # NOQA
 
 from constants.synth import SCALES, SYNTHS, TONICS
-from services import get_note, is_octave
+from services import get_note_name, is_octave
 
 
 Builder.load_file('ui/synth_screen.kv')
@@ -154,7 +154,7 @@ class NoteButton(Button):
             tonic = self.parent.tonic
             scale = self.parent.scale
             degree = self.note % SCALES[self.parent.scale]  # TODO: refactor
-            self.note_label.text = get_note(
+            self.note_label.text = get_note_name(
                 tonic=tonic, scale=scale, degree=degree)
 
     def play(self):

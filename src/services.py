@@ -6,7 +6,7 @@ from constants.synth import SCALES
 
 
 @lru_cache()
-def get_note(tonic, scale, degree):
+def get_note_name(tonic, scale, degree):
     tonic = tonic.upper()
 
     if not (tonic and scale):

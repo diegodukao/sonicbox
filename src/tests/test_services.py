@@ -1,16 +1,16 @@
 from unittest.mock import Mock, patch
 
-from services import get_note
+from services import get_note_name
 
 
-class TestGetNote:
+class TestGetNoteName:
 
     def test_returns_not_name(self):
-        note = get_note(tonic="c1", scale="major", degree=0)
+        note = get_note_name(tonic="c1", scale="major", degree=0)
         assert "C" == note
 
     def test_returns_degree_plus_one_when_scale_is_not_found(self):
-        note = get_note(tonic="C1", scale="myscale", degree=0)
+        note = get_note_name(tonic="C1", scale="myscale", degree=0)
 
         assert "1" == note
 
@@ -23,16 +23,16 @@ class TestGetNote:
             "fake_scale": [mock_note],
         }
 
-        note = get_note(tonic="M1", scale="fake_scale", degree=0)
+        note = get_note_name(tonic="M1", scale="fake_scale", degree=0)
 
         mock_t_scale.assert_called_once_with(tonic="M1")
         assert "M1" == note
 
     @patch('services.TonedScale')
     def test_result_is_cached(self, mock_t_scale):
-        get_note(tonic="N1", scale="fake_scale", degree=0)
+        get_note_name(tonic="N1", scale="fake_scale", degree=0)
         mock_t_scale.assert_called_once_with(tonic="N1")
 
-        get_note(tonic="N1", scale="fake_scale", degree=0)
+        get_note_name(tonic="N1", scale="fake_scale", degree=0)
         # still called just once
         mock_t_scale.assert_called_once_with(tonic="N1")
