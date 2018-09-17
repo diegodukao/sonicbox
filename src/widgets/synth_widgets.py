@@ -13,7 +13,7 @@ from kivymd.menu import MDDropdownMenu
 from kivymd.selectioncontrols import MDCheckbox  # NOQA
 
 from constants.synth import SCALES, SYNTHS, TONICS
-from services import get_note
+from services import get_note, is_octave
 
 
 Builder.load_file('ui/synth_screen.kv')
@@ -140,7 +140,7 @@ class NoteButton(Button):
                            self.center[1] - diameter / 2)
 
     def draw_circle(self, *args):
-        if self._is_octave:
+        if is_octave(self.note, self.parent.scale):
             self._draw_on_canvas(self.circle)
         else:
             self._erase_from_canvas(self.circle)
@@ -169,10 +169,6 @@ class NoteButton(Button):
                 self.note,
             ]
         )
-
-    @property
-    def _is_octave(self):
-        return bool(self.note % SCALES[self.parent.scale] == 0)
 
     def _draw_on_canvas(self, instruction):
         if instruction not in self.canvas.children:

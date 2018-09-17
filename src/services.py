@@ -2,6 +2,8 @@ from functools import lru_cache
 
 from pytheory import TonedScale
 
+from constants.synth import SCALES
+
 
 @lru_cache()
 def get_note(tonic, scale, degree):
@@ -18,3 +20,7 @@ def get_note(tonic, scale, degree):
         return str(degree + 1)
 
     return scale_[degree].name
+
+
+def is_octave(note, scale):
+    return bool(note % SCALES[scale] == 0)
