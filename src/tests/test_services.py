@@ -27,3 +27,12 @@ class TestGetNote:
 
         mock_t_scale.assert_called_once_with(tonic="M1")
         assert "M1" == note
+
+    @patch('services.TonedScale')
+    def test_result_is_cached(self, mock_t_scale):
+        get_note(tonic="N1", scale="fake_scale", degree=0)
+        mock_t_scale.assert_called_once_with(tonic="N1")
+
+        get_note(tonic="N1", scale="fake_scale", degree=0)
+        # still called just once
+        mock_t_scale.assert_called_once_with(tonic="N1")
