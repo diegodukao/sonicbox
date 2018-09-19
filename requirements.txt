@@ -1,5 +1,0 @@
-#Pillow==5.1.0
-Kivy==1.10.0
-python-osc==1.6.6
--e git+https://gitlab.com/kivymd/KivyMD.git#egg=KivyMD
--e git+https://github.com/diegodukao/pytheory.git#egg=pytheory

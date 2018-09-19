@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+kivy = "*"
+python-osc = "*"
+pytheory-testing = {git = "https://github.com/diegodukao/pytheory.git", editable = true, ref = "2d7ab8ce526c2dc4a1503cf7ac849f956015bb3d"}
+KivyMD = {git = "https://github.com/AndreMiras/KivyMD.git", editable = true, ref = "9b2206adbfc8138dd67ec114df19bef96e6bd894"}
+
+[dev-packages]
+
+[requires]
+python_version = "3.6"
