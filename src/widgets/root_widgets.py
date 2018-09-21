@@ -1,4 +1,13 @@
+from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager
+from kivymd.navigationdrawer import NavigationLayout
+
+
+Builder.load_file('ui/root.kv')
+
+
+class RootWidget(NavigationLayout):
+    pass
 
 
 class CustomScreenManager(ScreenManager):
