@@ -1,4 +1,13 @@
-#:import RootWidget widgets.root_widgets.RootWidget
+#:import NavigationLayout kivymd.navigationdrawer.NavigationLayout
 
+#:import Drawer widgets.root_widgets.Drawer
+#:import ScreenArea widgets.root_widgets.ScreenArea
 
-RootWidget:
+NavigationLayout:
+    id: nav_layout
+    screens: screen.manager
+
+	Drawer:
+
+	ScreenArea:
+		id: screen

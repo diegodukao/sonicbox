@@ -1,12 +1,17 @@
 from kivy.lang import Builder
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager
-from kivymd.navigationdrawer import NavigationLayout
+from kivymd.navigationdrawer import MDNavigationDrawer
 
 
 Builder.load_file('ui/root.kv')
 
 
-class RootWidget(NavigationLayout):
+class Drawer(MDNavigationDrawer):
+    pass
+
+
+class ScreenArea(BoxLayout):
     pass
 
 
