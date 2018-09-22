@@ -10,6 +10,7 @@ pytheory-testing = {git = "https://github.com/diegodukao/pytheory.git", editable
 KivyMD = {git = "https://github.com/AndreMiras/KivyMD.git", editable = true, ref = "9b2206adbfc8138dd67ec114df19bef96e6bd894"}
 
 [dev-packages]
+ipdb = "*"
 
 [requires]
 python_version = "3.6"
