@@ -5,6 +5,7 @@ from kivy.uix.button import Button
 from kivy.uix.carousel import Carousel
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
+from kivymd.selectioncontrols import MDCheckbox
 
 from constants.samples import SAMPLES_GROUPS
 
@@ -61,8 +62,21 @@ class PlayButton(Button):
         super().__init__(**kwargs)
         self.app = App.get_running_app()
 
+        self.fav_checkbox = MDCheckbox()
+        self.fav_checkbox.size = self.fav_checkbox.texture_size
+        self.add_widget(self.fav_checkbox)
+        self.bind(pos=self.update_checkbox_pos,
+                  size=self.update_checkbox_pos)
+
     def on_press(self):
         self.play()
+
+    def update_checkbox_pos(self, *args):
+        self.fav_checkbox.size = self.fav_checkbox.texture_size
+        self.fav_checkbox.pos = (
+            self.x + self.width - self.fav_checkbox.width,
+            self.y + self.height - self.fav_checkbox.height,
+        )
 
     def play(self):
         self.app.sender.send_message('/sample', self.text)
