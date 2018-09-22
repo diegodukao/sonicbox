@@ -26,8 +26,10 @@ class SamplesCarousel(Carousel):
         self.loop = True
 
         for samples_group in SAMPLES_GROUPS:
-            sk = SamplesKeyboard(samples_group)
-            self.add_widget(sk)
+            self.add_widget(SamplesKeyboard(samples_group))
+
+        # empty keyboard to store user's favorite samples
+        self.add_widget(SamplesKeyboard())
 
         self.title = self.current_slide.title
 
@@ -39,15 +41,18 @@ class SamplesCarousel(Carousel):
 
 class SamplesKeyboard(GridLayout):
 
-    def __init__(self, samples_group, **kwargs):
+    def __init__(self, samples_group=None, **kwargs):
         super().__init__(**kwargs)
 
         self.cols = 3
-        self.title = samples_group.name
+        if samples_group:
+            self.title = samples_group.name
 
-        for sample in samples_group.samples:
-            btn = PlayButton(text=sample)
-            self.add_widget(btn)
+            for sample in samples_group.samples:
+                btn = PlayButton(text=sample)
+                self.add_widget(btn)
+        else:
+            self.title = "Favorites"
 
 
 class PlayButton(Button):
