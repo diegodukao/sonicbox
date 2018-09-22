@@ -1,11 +1,14 @@
 from kivy.app import App
 from kivy.lang import Builder
-from kivy.properties import DictProperty, ListProperty, ObjectProperty, \
-    StringProperty
+from kivy.properties import (
+    BooleanProperty, DictProperty, ListProperty, ObjectProperty,
+    StringProperty)
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.carousel import Carousel
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
+from kivymd.menu import MDDropdownMenu
 from kivymd.selectioncontrols import MDCheckbox
 
 from constants.samples import SAMPLES_GROUPS
@@ -14,8 +17,25 @@ from constants.samples import SAMPLES_GROUPS
 Builder.load_file('ui/samples_screen.kv')
 
 
+class SamplesDropdownMenuCheckbox(BoxLayout):
+    show_checkboxes = BooleanProperty()
+
+    def on_show_checkboxes(self, instance, value):
+        app = App.get_running_app()
+        app.root.screens.samples.carousel.show_checkboxes = value
+
+
 class SamplesScreen(Screen):
     favorites = ListProperty()
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        menu_items = [
+            {'viewclass': 'SamplesDropdownMenuCheckbox'},
+        ]
+        self.dropdown = SamplesSettingsDropdown(
+            items=menu_items, width_mult=4)
 
     def add_favorite(self, sample_name):
         if sample_name not in self.favorites:
@@ -31,19 +51,27 @@ class SamplesCarousel(Carousel):
     title = StringProperty()
     favorites_keyboard = ObjectProperty()
     favorites_buttons = DictProperty()
+    show_checkboxes = BooleanProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
         self.loop = True
 
+        keyboards_list = []
         for samples_group in SAMPLES_GROUPS:
-            self.add_widget(SamplesKeyboard(samples_group))
+            kb = SamplesKeyboard(samples_group)
+            self.add_widget(kb)
+            keyboards_list.append(kb)
 
         # empty keyboard to store user's favorite samples
         fav_keyboard = SamplesKeyboard()
         self.favorites_keyboard = fav_keyboard
         self.add_widget(fav_keyboard)
+        keyboards_list.append(fav_keyboard)
+
+        for kb in keyboards_list:
+            self.bind(show_checkboxes=kb.toggle_checkboxes)
 
         self.title = self.current_slide.title
 
@@ -64,6 +92,7 @@ class SamplesCarousel(Carousel):
 
 
 class SamplesKeyboard(GridLayout):
+    show_checkboxes = BooleanProperty()
 
     def __init__(self, samples_group=None, **kwargs):
         super().__init__(**kwargs)
@@ -75,8 +104,12 @@ class SamplesKeyboard(GridLayout):
             for sample in samples_group.samples:
                 btn = PlayButton(text=sample)
                 self.add_widget(btn)
+                self.bind(show_checkboxes=btn.toggle_checkboxes)
         else:
             self.title = "Favorites"
+
+    def toggle_checkboxes(self, caller, show_checkboxes):
+        self.show_checkboxes = show_checkboxes
 
 
 class FavoriteCheckbox(MDCheckbox):
@@ -118,5 +151,15 @@ class PlayButton(Button):
             self.y + self.height - self.fav_checkbox.height,
         )
 
+    def toggle_checkboxes(self, caller, show_checkboxes):
+        if show_checkboxes and self.fav_checkbox not in self.children:
+            self.add_widget(self.fav_checkbox)
+        elif not show_checkboxes and self.fav_checkbox in self.children:
+            self.remove_widget(self.fav_checkbox)
+
     def play(self):
         self.app.sender.send_message('/sample', self.text)
+
+
+class SamplesSettingsDropdown(MDDropdownMenu):
+    pass
