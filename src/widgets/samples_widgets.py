@@ -12,7 +12,7 @@ from kivymd.menu import MDDropdownMenu
 from kivymd.selectioncontrols import MDCheckbox
 
 from constants.samples import SAMPLES_GROUPS
-
+from services import storage
 
 Builder.load_file('ui/samples_screen.kv')
 
@@ -33,10 +33,12 @@ class SamplesScreen(Screen):
         if sample_name not in self.favorites:
             self.favorites.append(sample_name)
             self.carousel.add_favorite_btn(sample_name)
+            storage.save_favorite_sample(sample_name)
 
     def remove_favorite(self, sample_name):
         if sample_name in self.favorites:
             self.carousel.remove_favorite_btn(sample_name)
+            storage.remove_favorite_sample(sample_name)
 
     def toggle_edit_favorites(self, edit: bool):
         """ Called by `edit favorites` checkbox on the dropdown menu"""
