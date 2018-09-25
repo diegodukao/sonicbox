@@ -11,6 +11,7 @@ KivyMD = {git = "https://github.com/AndreMiras/KivyMD.git", editable = true, ref
 
 [dev-packages]
 ipdb = "*"
+pytest = "*"
 
 [requires]
 python_version = "3.6"
