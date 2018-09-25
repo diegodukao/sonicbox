@@ -11,7 +11,7 @@ from kivy.uix.screenmanager import Screen
 from kivymd.menu import MDDropdownMenu
 from kivymd.selectioncontrols import MDCheckbox
 
-from constants.samples import SAMPLES_GROUPS
+from constants.samples import SAMPLES_GROUPS, SamplesGroup
 from services import storage
 
 Builder.load_file('ui/samples_screen.kv')
@@ -62,8 +62,7 @@ class SamplesCarousel(Carousel):
             self.add_widget(kb)
             keyboards_list.append(kb)
 
-        # empty keyboard to store user's favorite samples
-        fav_keyboard = SamplesKeyboard()
+        fav_keyboard = self.create_favorite_samples_keyboard()
         self.favorites_keyboard = fav_keyboard
         self.add_widget(fav_keyboard)
         keyboards_list.append(fav_keyboard)
@@ -77,6 +76,18 @@ class SamplesCarousel(Carousel):
         """Updating Carousel title everytime the slide is changed"""
         super().on_index(*args)
         self.title = self.current_slide.title
+
+    def create_favorite_samples_keyboard(self):
+        store = storage.get_storage()
+
+        if store.exists('samples') and ('favorites' in store.get('samples')):
+            fav_list = store.get('samples')['favorites']
+        else:
+            fav_list = []
+
+        samples_group = SamplesGroup("Favorites", fav_list)
+
+        return SamplesKeyboard(samples_group)
 
     def add_favorite_btn(self, sample_name):
         btn = Button(text=sample_name)

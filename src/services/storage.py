@@ -1,6 +1,10 @@
 from kivy.storage.jsonstore import JsonStore
 
 
+def get_storage():
+    return JsonStore('src/data/user_config.json')
+
+
 def save_favorite_sample(sample_name):
     store = JsonStore('src/data/user_config.json')
 
