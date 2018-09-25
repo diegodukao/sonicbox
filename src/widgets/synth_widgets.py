@@ -13,7 +13,7 @@ from kivymd.menu import MDDropdownMenu
 from kivymd.selectioncontrols import MDCheckbox  # NOQA
 
 from constants.synth import SCALES, SYNTHS, TONICS
-from services import get_note_name, is_octave
+from services.theory import get_note_name, is_octave
 
 
 Builder.load_file('ui/synth_screen.kv')

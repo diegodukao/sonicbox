@@ -1,6 +1,6 @@
 from unittest.mock import Mock, patch
 
-from services import get_note_name, is_octave
+from services.theory import get_note_name, is_octave
 
 
 class TestGetNoteName:
@@ -14,7 +14,7 @@ class TestGetNoteName:
 
         assert "1" == note
 
-    @patch('services.TonedScale')
+    @patch('services.theory.TonedScale')
     def test_uses_toned_scale(self, mock_t_scale):
         mock_note = Mock()
         mock_note.name = "M1"
@@ -28,7 +28,7 @@ class TestGetNoteName:
         mock_t_scale.assert_called_once_with(tonic="M1")
         assert "M1" == note
 
-    @patch('services.TonedScale')
+    @patch('services.theory.TonedScale')
     def test_result_is_cached(self, mock_t_scale):
         get_note_name(tonic="N1", scale="fake_scale", degree=0)
         mock_t_scale.assert_called_once_with(tonic="N1")
