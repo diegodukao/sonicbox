@@ -17,14 +17,6 @@ from constants.samples import SAMPLES_GROUPS
 Builder.load_file('ui/samples_screen.kv')
 
 
-class SamplesDropdownMenuCheckbox(BoxLayout):
-    show_checkboxes = BooleanProperty()
-
-    def on_show_checkboxes(self, instance, value):
-        app = App.get_running_app()
-        app.root.screens.samples.carousel.show_checkboxes = value
-
-
 class SamplesScreen(Screen):
     favorites = ListProperty()
 
@@ -46,12 +38,16 @@ class SamplesScreen(Screen):
         if sample_name in self.favorites:
             self.carousel.remove_favorite_btn(sample_name)
 
+    def toggle_edit_favorites(self, edit: bool):
+        """ Called by `edit favorites` checkbox on the dropdown menu"""
+        self.carousel.edit_favorites = edit
+
 
 class SamplesCarousel(Carousel):
     title = StringProperty()
     favorites_keyboard = ObjectProperty()
     favorites_buttons = DictProperty()
-    show_checkboxes = BooleanProperty()
+    edit_favorites = BooleanProperty()
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -71,7 +67,7 @@ class SamplesCarousel(Carousel):
         keyboards_list.append(fav_keyboard)
 
         for kb in keyboards_list:
-            self.bind(show_checkboxes=kb.toggle_checkboxes)
+            self.bind(edit_favorites=kb.toggle_checkboxes)
 
         self.title = self.current_slide.title
 
@@ -159,6 +155,14 @@ class PlayButton(Button):
 
     def play(self):
         self.app.sender.send_message('/sample', self.text)
+
+
+class SamplesDropdownMenuCheckbox(BoxLayout):
+    edit_favorites = BooleanProperty()
+
+    def on_edit_favorites(self, instance, value):
+        app = App.get_running_app()
+        app.root.screens.samples.toggle_edit_favorites(value)
 
 
 class SamplesSettingsDropdown(MDDropdownMenu):
