@@ -66,6 +66,9 @@ class SamplesCarousel(Carousel):
             keyboards_list.append(kb)
 
         fav_keyboard = self.create_favorite_samples_keyboard()
+        self.favorites_buttons = {
+            btn.text: btn for btn in fav_keyboard.children
+        }
         self.favorites_keyboard = fav_keyboard
         self.add_widget(fav_keyboard)
         keyboards_list.append(fav_keyboard)
