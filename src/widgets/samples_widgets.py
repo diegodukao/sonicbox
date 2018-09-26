@@ -12,7 +12,6 @@ from kivymd.menu import MDDropdownMenu
 from kivymd.selectioncontrols import MDCheckbox
 
 from constants.samples import SAMPLES_GROUPS, SamplesGroup
-from services import storage
 
 Builder.load_file('ui/samples_screen.kv')
 
@@ -22,6 +21,7 @@ class SamplesScreen(Screen):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.app = App.get_running_app()
 
         menu_items = [
             {'viewclass': 'SamplesDropdownMenuCheckbox'},
@@ -29,16 +29,18 @@ class SamplesScreen(Screen):
         self.dropdown = SamplesSettingsDropdown(
             items=menu_items, width_mult=4)
 
+        self.favorites = self.app.favorite_samples
+        self.bind(favorites=self.app.update_favorite_samples)
+
     def add_favorite(self, sample_name):
         if sample_name not in self.favorites:
             self.favorites.append(sample_name)
             self.carousel.add_favorite_btn(sample_name)
-            storage.save_favorite_sample(sample_name)
 
     def remove_favorite(self, sample_name):
         if sample_name in self.favorites:
+            self.favorites.remove(sample_name)
             self.carousel.remove_favorite_btn(sample_name)
-            storage.remove_favorite_sample(sample_name)
 
     def toggle_edit_favorites(self, edit: bool):
         """ Called by `edit favorites` checkbox on the dropdown menu"""
@@ -55,6 +57,7 @@ class SamplesCarousel(Carousel):
         super().__init__(**kwargs)
 
         self.loop = True
+        self.app = App.get_running_app()
 
         keyboards_list = []
         for samples_group in SAMPLES_GROUPS:
@@ -78,16 +81,10 @@ class SamplesCarousel(Carousel):
         self.title = self.current_slide.title
 
     def create_favorite_samples_keyboard(self):
-        store = storage.get_storage()
-
-        if store.exists('samples') and ('favorites' in store.get('samples')):
-            fav_list = store.get('samples')['favorites']
-        else:
-            fav_list = []
-
+        fav_list = self.app.favorite_samples
         samples_group = SamplesGroup("Favorites", fav_list)
 
-        return SamplesKeyboard(samples_group)
+        return SamplesKeyboard(samples_group, favorites=True)
 
     def add_favorite_btn(self, sample_name):
         btn = Button(text=sample_name)
@@ -103,22 +100,73 @@ class SamplesCarousel(Carousel):
 class SamplesKeyboard(GridLayout):
     show_checkboxes = BooleanProperty()
 
-    def __init__(self, samples_group=None, **kwargs):
+    def __init__(self, samples_group, favorites=False, **kwargs):
         super().__init__(**kwargs)
 
         self.cols = 3
-        if samples_group:
-            self.title = samples_group.name
+        self.title = samples_group.name
 
-            for sample in samples_group.samples:
+        for sample in samples_group.samples:
+            if favorites:
+                btn = FavoritePlayButton(text=sample)
+            else:
                 btn = PlayButton(text=sample)
-                self.add_widget(btn)
                 self.bind(show_checkboxes=btn.toggle_checkboxes)
-        else:
-            self.title = "Favorites"
+            self.add_widget(btn)
 
     def toggle_checkboxes(self, caller, show_checkboxes):
         self.show_checkboxes = show_checkboxes
+
+
+class PlayButton(Button):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.app = App.get_running_app()
+
+        self.fav_checkbox = FavoriteCheckbox()
+        self.fav_checkbox.size = self.fav_checkbox.texture_size
+        self.fav_checkbox.active = self.is_favorite()
+        self.add_widget(self.fav_checkbox)
+        self.bind(pos=self.update_checkbox_pos,
+                  size=self.update_checkbox_pos)
+
+    def on_press(self):
+        self.play()
+
+    def is_favorite(self):
+        fav_list = self.app.favorite_samples
+
+        return self.text in fav_list
+
+    def update_checkbox_pos(self, *args):
+        self.fav_checkbox.size = self.fav_checkbox.texture_size
+        self.fav_checkbox.pos = (
+            self.x + self.width - self.fav_checkbox.width,
+            self.y + self.height - self.fav_checkbox.height,
+        )
+
+    def toggle_checkboxes(self, caller, show_checkboxes):
+        if show_checkboxes and self.fav_checkbox not in self.children:
+            self.add_widget(self.fav_checkbox)
+        elif not show_checkboxes and self.fav_checkbox in self.children:
+            self.remove_widget(self.fav_checkbox)
+
+    def play(self):
+        self.app.sender.send_message('/sample', self.text)
+
+
+class FavoritePlayButton(Button):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.app = App.get_running_app()
+
+    def on_press(self):
+        self.play()
+
+    def play(self):
+        self.app.sender.send_message('/sample', self.text)
 
 
 class FavoriteCheckbox(MDCheckbox):
@@ -138,36 +186,8 @@ class FavoriteCheckbox(MDCheckbox):
                 screen.remove_favorite(self.parent.text)
 
 
-class PlayButton(Button):
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.app = App.get_running_app()
-
-        self.fav_checkbox = FavoriteCheckbox()
-        self.fav_checkbox.size = self.fav_checkbox.texture_size
-        self.add_widget(self.fav_checkbox)
-        self.bind(pos=self.update_checkbox_pos,
-                  size=self.update_checkbox_pos)
-
-    def on_press(self):
-        self.play()
-
-    def update_checkbox_pos(self, *args):
-        self.fav_checkbox.size = self.fav_checkbox.texture_size
-        self.fav_checkbox.pos = (
-            self.x + self.width - self.fav_checkbox.width,
-            self.y + self.height - self.fav_checkbox.height,
-        )
-
-    def toggle_checkboxes(self, caller, show_checkboxes):
-        if show_checkboxes and self.fav_checkbox not in self.children:
-            self.add_widget(self.fav_checkbox)
-        elif not show_checkboxes and self.fav_checkbox in self.children:
-            self.remove_widget(self.fav_checkbox)
-
-    def play(self):
-        self.app.sender.send_message('/sample', self.text)
+class SamplesSettingsDropdown(MDDropdownMenu):
+    pass
 
 
 class SamplesDropdownMenuCheckbox(BoxLayout):
@@ -176,7 +196,3 @@ class SamplesDropdownMenuCheckbox(BoxLayout):
     def on_edit_favorites(self, instance, value):
         app = App.get_running_app()
         app.root.screens.samples.toggle_edit_favorites(value)
-
-
-class SamplesSettingsDropdown(MDDropdownMenu):
-    pass
