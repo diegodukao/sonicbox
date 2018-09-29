@@ -13,6 +13,7 @@ kivy.require('1.10.0')
 class SonicBox(App):
     theme_cls = ThemeManager()
     _favorite_samples = None
+    _sample_buttons = {}
     _sender = None
 
     def create_sender(self, ip):
@@ -43,6 +44,13 @@ class SonicBox(App):
     def update_favorite_samples(self, caller, favorites):
         self._favorite_samples = favorites
         storage.update_favorite_samples(favorites)
+
+    @property
+    def sample_buttons(self):
+        return self._sample_buttons
+
+    def add_sample_button(self, sample_btn):
+        self._sample_buttons[sample_btn.text] = sample_btn
 
     def build(self):
         self._favorite_samples = self._get_favorite_samples()

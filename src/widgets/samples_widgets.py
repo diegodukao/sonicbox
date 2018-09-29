@@ -42,6 +42,7 @@ class SamplesScreen(Screen):
         if sample_name in self.favorites:
             self.favorites.remove(sample_name)
             self.carousel.remove_favorite_btn(sample_name)
+            self.app.sample_buttons[sample_name].toggle_checkbox_active(False)
 
     def toggle_edit_favorites(self, edit: bool):
         """ Called by `edit favorites` checkbox on the dropdown menu"""
@@ -135,6 +136,8 @@ class PlayButton(Button):
         self.bind(pos=self.update_checkbox_pos,
                   size=self.update_checkbox_pos)
 
+        self.app.add_sample_button(self)
+
     def on_press(self):
         self.play()
 
@@ -149,6 +152,9 @@ class PlayButton(Button):
             self.x + self.width - self.fav_checkbox.width,
             self.y + self.height - self.fav_checkbox.height,
         )
+
+    def toggle_checkbox_active(self, value):
+        self.fav_checkbox.active = value
 
     def toggle_edit_favorite_input(self, caller, show_checkboxes):
         if show_checkboxes and self.fav_checkbox not in self.children:
@@ -190,20 +196,6 @@ class FavoritePlayButton(Button):
         self.app.sender.send_message('/sample', self.text)
 
 
-class RemoveButton(MDIconButton):
-
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.app = App.get_running_app()
-
-        self.icon = 'close-box-outline'
-        self.size = (24, 24)
-
-    def on_press(self):
-        screen = self.app.root.screens.samples
-        screen.remove_favorite(self.parent.text)
-
-
 class FavoriteCheckbox(MDCheckbox):
 
     def __init__(self, **kwargs):
@@ -219,6 +211,20 @@ class FavoriteCheckbox(MDCheckbox):
                 screen.add_favorite(self.parent.text)
             else:
                 screen.remove_favorite(self.parent.text)
+
+
+class RemoveButton(MDIconButton):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.app = App.get_running_app()
+
+        self.icon = 'close-box-outline'
+        self.size = (24, 24)
+
+    def on_press(self):
+        screen = self.app.root.screens.samples
+        screen.remove_favorite(self.parent.text)
 
 
 class SamplesSettingsDropdown(MDDropdownMenu):
