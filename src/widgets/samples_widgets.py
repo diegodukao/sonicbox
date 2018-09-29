@@ -91,7 +91,7 @@ class SamplesCarousel(Carousel):
         return SamplesKeyboard(samples_group, favorites=True)
 
     def add_favorite_btn(self, sample_name):
-        btn = Button(text=sample_name)
+        btn = FavoritePlayButton(text=sample_name)
         self.favorites_buttons[sample_name] = btn
         self.favorites_keyboard.add_widget(btn)
 
