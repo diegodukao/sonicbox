@@ -75,7 +75,7 @@ class SamplesCarousel(Carousel):
         keyboards_list.append(fav_keyboard)
 
         for kb in keyboards_list:
-            self.bind(edit_favorites=kb.toggle_checkboxes)
+            self.bind(edit_favorites=kb.toggle_edit_favorites)
 
         self.title = self.current_slide.title
 
@@ -102,7 +102,7 @@ class SamplesCarousel(Carousel):
 
 
 class SamplesKeyboard(GridLayout):
-    show_checkboxes = BooleanProperty()
+    edit_favorites = BooleanProperty()
 
     def __init__(self, samples_group, favorites=False, **kwargs):
         super().__init__(**kwargs)
@@ -115,11 +115,11 @@ class SamplesKeyboard(GridLayout):
                 btn = FavoritePlayButton(text=sample)
             else:
                 btn = PlayButton(text=sample)
-                self.bind(show_checkboxes=btn.toggle_checkboxes)
+            self.bind(edit_favorites=btn.toggle_edit_favorite_input)
             self.add_widget(btn)
 
-    def toggle_checkboxes(self, caller, show_checkboxes):
-        self.show_checkboxes = show_checkboxes
+    def toggle_edit_favorites(self, caller, edit: bool):
+        self.edit_favorites = edit
 
 
 class PlayButton(Button):
@@ -150,7 +150,7 @@ class PlayButton(Button):
             self.y + self.height - self.fav_checkbox.height,
         )
 
-    def toggle_checkboxes(self, caller, show_checkboxes):
+    def toggle_edit_favorite_input(self, caller, show_checkboxes):
         if show_checkboxes and self.fav_checkbox not in self.children:
             self.add_widget(self.fav_checkbox)
         elif not show_checkboxes and self.fav_checkbox in self.children:
@@ -179,6 +179,12 @@ class FavoritePlayButton(Button):
             self.x + self.width - self.remove_btn.width,
             self.y + self.height - self.remove_btn.height,
         )
+
+    def toggle_edit_favorite_input(self, caller, show_remove_btn):
+        if show_remove_btn and self.remove_btn not in self.children:
+            self.add_widget(self.remove_btn)
+        elif not show_remove_btn and self.remove_btn in self.children:
+            self.remove_widget(self.remove_btn)
 
     def play(self):
         self.app.sender.send_message('/sample', self.text)
