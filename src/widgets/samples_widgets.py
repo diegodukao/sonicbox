@@ -166,9 +166,7 @@ class FavoritePlayButton(Button):
         super().__init__(**kwargs)
         self.app = App.get_running_app()
 
-        self.remove_btn = MDIconButton(icon='close-box-outline')
-        # TODO: move this size setting somewhere else
-        self.remove_btn.size = (24, 24)
+        self.remove_btn = RemoveButton()
         self.add_widget(self.remove_btn)
         self.bind(pos=self.update_remove_btn_pos,
                   size=self.update_remove_btn_pos)
@@ -184,6 +182,20 @@ class FavoritePlayButton(Button):
 
     def play(self):
         self.app.sender.send_message('/sample', self.text)
+
+
+class RemoveButton(MDIconButton):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.app = App.get_running_app()
+
+        self.icon = 'close-box-outline'
+        self.size = (24, 24)
+
+    def on_press(self):
+        screen = self.app.root.screens.samples
+        screen.remove_favorite(self.parent.text)
 
 
 class FavoriteCheckbox(MDCheckbox):
