@@ -8,6 +8,7 @@ from kivy.uix.button import Button
 from kivy.uix.carousel import Carousel
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.screenmanager import Screen
+from kivymd.button import MDIconButton
 from kivymd.menu import MDDropdownMenu
 from kivymd.selectioncontrols import MDCheckbox
 
@@ -165,8 +166,21 @@ class FavoritePlayButton(Button):
         super().__init__(**kwargs)
         self.app = App.get_running_app()
 
+        self.remove_btn = MDIconButton(icon='close-box-outline')
+        # TODO: move this size setting somewhere else
+        self.remove_btn.size = (24, 24)
+        self.add_widget(self.remove_btn)
+        self.bind(pos=self.update_remove_btn_pos,
+                  size=self.update_remove_btn_pos)
+
     def on_press(self):
         self.play()
+
+    def update_remove_btn_pos(self, *args):
+        self.remove_btn.pos = (
+            self.x + self.width - self.remove_btn.width,
+            self.y + self.height - self.remove_btn.height,
+        )
 
     def play(self):
         self.app.sender.send_message('/sample', self.text)
