@@ -6,6 +6,7 @@
 #:import SettingsScreen widgets.settings_widgets.SettingsScreen
 #:import SynthScreen widgets.synth_widgets.SynthScreen
 #:import DrumMachineScreen widgets.drum_machine_widgets.DrumMachineScreen
+#:import ChordProgScreen widgets.chord_prog_widgets.ChordProgScreen
 
 
 <Drawer>:
@@ -24,6 +25,10 @@
 		icon: 'checkbox-blank-circle'
 		text: 'Drum Machine'
 		on_release: app.root.screens.current = 'drum_machine'
+	NavigationDrawerIconButton:
+		icon: 'checkbox-blank-circle'
+		text: 'Chord Progression Generator'
+		on_release: app.root.screens.current = 'chord_prog'
 	NavigationDrawerIconButton:
 		icon: 'checkbox-blank-circle'
 		text: 'Settings'
@@ -54,5 +59,7 @@
 			id: samples_screen
 		DrumMachineScreen:
 			id: drum_machine_screen
+		ChordProgScreen:
+			id: chord_prog_screen
 		SettingsScreen:
 			id: settings_screen

@@ -1,9 +1,10 @@
 #:import MDCheckbox kivymd.selectioncontrols.MDCheckbox
 
+#:import SynthButton widgets.synth_widgets.SynthButton
 
-<SynthScreen>:
-    name: "synth"
-    keyboard: synth_keyboard
+
+<ChordProgScreen>:
+    name: "chord_prog"
 
     BoxLayout:
         orientation: 'vertical'
@@ -27,27 +28,7 @@
                 text: "Scale: {}".format(self.current)
                 on_release: self.open_bottom_sheet('scales')
 
-        SynthKeyboard:
-			id: synth_keyboard
-            size_hint_y: 0.8
-            synth: synth_button.current
-            tonic: tonic_button.current
-            scale: scale_button.current
-
-
-<NoteLabel>:
-	text_size: self.size
-	valign: "top"
-	padding_x: '6'
-	padding_y: '2'
-
-
-<DropdownMenuCheckbox>:
-	show_notes: show_notes_checkbox.active
-
-	orientation: "horizontal"
-	Label:
-		text: "Show notes"
-	MDCheckbox:
-		id: show_notes_checkbox
-		active: False
+        BoxLayout:
+            size_hint_y: 0.2
+            Label:
+                text: "yeah" 
