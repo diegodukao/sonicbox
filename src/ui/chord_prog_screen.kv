@@ -12,27 +12,7 @@
     BoxLayout:
         orientation: 'vertical'
         BoxLayout:
-            size_hint_y: 0.15
-            orientation: 'horizontal'
-
-            SynthButton:
-                id: synth_button
-                current: "piano"
-                text: "Synth: {}".format(self.current)
-                on_release: self.open_bottom_sheet('synth')
-            SynthButton:
-                id: tonic_button
-                current: "c1"
-                text: "Tonic: {}".format(self.current)
-                on_release: self.open_bottom_sheet('tonics')
-            SynthButton:
-                id: scale_button
-                current: "major"
-                text: "Scale: {}".format(self.current)
-                on_release: self.open_bottom_sheet('scales')
-
-        BoxLayout:
-            size_hint_y: 0.15
+            size_hint_y: 0.12
             orientation: 'horizontal'
 
             Label:
@@ -51,6 +31,42 @@
                     text: 'Stop'
 
         BoxLayout:
-            size_hint_y: 0.7
-            Label:
-                text: "yeah"
+            size_hint_y: 0.12
+            orientation: 'horizontal'
+
+            SynthButton:
+                id: synth_button
+                current: "piano"
+                text: "Synth: {}".format(self.current)
+                on_release: self.open_bottom_sheet('synth')
+            SynthButton:
+                id: tonic_button
+                current: "c1"
+                text: "Tonic: {}".format(self.current)
+                on_release: self.open_bottom_sheet('tonics')
+            SynthButton:
+                id: scale_button
+                current: "major"
+                text: "Scale: {}".format(self.current)
+                on_release: self.open_bottom_sheet('scales')
+
+        ChordsSelector:
+            size_hint_y: 0.76
+
+
+<ChordsSelector>:
+    ChordsColumn:
+    ChordsColumn:
+    ChordsColumn:
+    ChordsColumn:
+
+
+<ChordsColumn>:
+    orientation: 'vertical'
+    padding: [self.width / 6, self.height / 5, self.width / 6, self.height / 3]
+    Label:
+        size_hint_y: 0.4
+        text: 'Cm'
+    Button:
+        size_hint_y: 0.6
+        text: "yeah"
