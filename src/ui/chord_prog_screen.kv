@@ -1,15 +1,18 @@
 #:import MDCheckbox kivymd.selectioncontrols.MDCheckbox
 
+#:import DMPlayButton widgets.drum_machine_widgets.DMPlayButton
+#:import DMStopButton widgets.drum_machine_widgets.DMStopButton
 #:import SynthButton widgets.synth_widgets.SynthButton
 
 
 <ChordProgScreen>:
     name: "chord_prog"
+    bpm: bpm_textinput
 
     BoxLayout:
         orientation: 'vertical'
         BoxLayout:
-            size_hint_y: 0.2
+            size_hint_y: 0.15
             orientation: 'horizontal'
 
             SynthButton:
@@ -29,6 +32,25 @@
                 on_release: self.open_bottom_sheet('scales')
 
         BoxLayout:
-            size_hint_y: 0.2
+            size_hint_y: 0.15
+            orientation: 'horizontal'
+
             Label:
-                text: "yeah" 
+                text: 'BPM'
+            TextInput:
+                id: bpm_textinput
+                text: '60'
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_x: 0.285
+
+                DMPlayButton:
+                    text: 'Play'
+                    bpm_value: root.bpm.text
+                DMStopButton:
+                    text: 'Stop'
+
+        BoxLayout:
+            size_hint_y: 0.7
+            Label:
+                text: "yeah"
