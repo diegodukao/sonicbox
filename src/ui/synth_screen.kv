@@ -11,21 +11,21 @@
             size_hint_y: 0.2
             orientation: 'horizontal'
 
-            SynthButton:
+            SynthsButton:
                 id: synth_button
                 current: "piano"
                 text: "Synth: {}".format(self.current)
-                on_release: self.open_bottom_sheet('synth')
-            SynthButton:
+                on_release: self.open_bottom_sheet()
+            TonicsButton:
                 id: tonic_button
                 current: "c1"
                 text: "Tonic: {}".format(self.current)
-                on_release: self.open_bottom_sheet('tonics')
-            SynthButton:
+                on_release: self.open_bottom_sheet()
+            ScalesButton:
                 id: scale_button
                 current: "major"
                 text: "Scale: {}".format(self.current)
-                on_release: self.open_bottom_sheet('scales')
+                on_release: self.open_bottom_sheet()
 
         SynthKeyboard:
 			id: synth_keyboard

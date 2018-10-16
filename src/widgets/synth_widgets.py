@@ -41,27 +41,23 @@ class SynthScreen(Screen):
 class SynthButton(Button):
     current = StringProperty()
 
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        self.bottom_sheets = {
-            "synth": self._create_bottom_sheet("synth"),
-            "tonics": self._create_bottom_sheet("tonics"),
-            "scales": self._create_bottom_sheet("scales"),
-        }
+    @property
+    def bottom_sheet(self):
+        if self._bottom_sheet:
+            return self._bottom_sheet
+        else:
+            raise NotImplemented
 
     def change_current(self, new_value):
         self.current = new_value
 
-    def open_bottom_sheet(self, option):
-        bs = self.bottom_sheets[option]
-
-        bs.open()
+    def open_bottom_sheet(self):
+        self.bottom_sheet.open()
 
     def _create_bottom_sheet(self, option):
         bs = MDListBottomSheet()
 
-        if option == 'synth':
+        if option == 'synths':
             items = sorted(SYNTHS)
         elif option == 'tonics':
             items = TONICS
@@ -75,6 +71,27 @@ class SynthButton(Button):
                         icon='nfc')
 
         return bs
+
+
+class SynthsButton(SynthButton):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._bottom_sheet = self._create_bottom_sheet('synths')
+
+
+class TonicsButton(SynthButton):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._bottom_sheet = self._create_bottom_sheet('tonics')
+
+
+class ScalesButton(SynthButton):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._bottom_sheet = self._create_bottom_sheet('scales')
 
 
 class SynthKeyboard(GridLayout):
