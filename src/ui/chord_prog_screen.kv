@@ -63,10 +63,13 @@
 
 <ChordsColumn>:
     orientation: 'vertical'
-    padding: [self.width / 6, self.height / 5, self.width / 6, self.height / 3]
+    padding: [self.width / 6, dp(30), self.width / 6, 0]
     Label:
-        size_hint_y: 0.4
+        size_hint_y: None
+        height: dp(20)
         text: 'Cm'
     Button:
-        size_hint_y: 0.6
+        size_hint_y: None
+        height: dp(50)
         text: "yeah"
+    Widget:
