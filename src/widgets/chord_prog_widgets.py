@@ -42,7 +42,7 @@ class ChordsPanel(BoxLayout):
 
     def play_curr_column(self):
         self.curr_column.add_overlay()
-        # self.curr_column.send_notes()
+        self.curr_column.send_chord()
 
     def column_callback(self, dt):
         self.curr_column.remove_overlay()
@@ -85,6 +85,20 @@ class ChordsColumn(BoxLayout):
     def remove_overlay(self):
         self.canvas.remove_group('overlay')
         self.canvas.ask_update()
+
+    def get_chosen_chord_data(self):
+        tonic = self.parent.tonic.replace('#', 's')
+        return [
+            self.parent.synth,
+            tonic,
+            self.parent.scale,
+        ]
+
+    def send_chord(self):
+        self.app.sender.send_message(
+            '/chord-prog',
+            self.get_chosen_chord_data(),
+        )
 
 
 class ChordsSpinner(Spinner):
