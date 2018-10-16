@@ -1,6 +1,6 @@
 <DrumMachineScreen>:
     name: "drum_machine"
-    keyboard: dm_keyboard
+    panel: dm_panel
     bpm: bpm_textinput
 
     BoxLayout:
@@ -18,7 +18,7 @@
             BoxLayout:
                 orientation: 'vertical'
                 size_hint_x: 0.285
-                keyboard: root.keyboard
+                panel: root.panel
 
                 DMPlayButton:
                     text: 'Play'
@@ -26,6 +26,6 @@
                 DMStopButton:
                     text: 'Stop'
 
-        DrumMachineKeyboard:
-            id: dm_keyboard
+        DrumMachinePanel:
+            id: dm_panel
             size_hint_y: 0.8

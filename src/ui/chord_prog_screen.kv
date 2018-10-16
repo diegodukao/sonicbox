@@ -24,7 +24,7 @@
             BoxLayout:
                 orientation: 'vertical'
                 size_hint_x: 0.285
-                keyboard: root.panel
+                panel: root.panel
 
                 DMPlayButton:
                     text: 'Play'
@@ -52,12 +52,12 @@
                 text: "Scale: {}".format(self.current)
                 on_release: self.open_bottom_sheet('scales')
 
-        ChordsSelector:
+        ChordsPanel:
             id: chords_panel
             size_hint_y: 0.76
 
 
-<ChordsSelector>:
+<ChordsPanel>:
     ChordsColumn:
     ChordsColumn:
     ChordsColumn:

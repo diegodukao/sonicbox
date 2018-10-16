@@ -13,7 +13,7 @@ class ChordProgScreen(Screen):
     pass
 
 
-class ChordsSelector(BoxLayout):
+class ChordsPanel(BoxLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

@@ -18,16 +18,16 @@ class DrumMachineScreen(Screen):
 class DMPlayButton(Button):
 
     def on_release(self):
-        keyboard = self.parent.keyboard
+        panel = self.parent.panel
         dt = (60 / int(self.bpm_value) / 4)
-        keyboard.play(dt)
+        panel.play(dt)
 
 
 class DMStopButton(Button):
 
     def on_release(self):
-        keyboard = self.parent.keyboard
-        keyboard.stop()
+        panel = self.parent.panel
+        panel.stop()
 
 
 class DMKeyboardColumn(BoxLayout):
@@ -65,7 +65,7 @@ class DMKeyboardColumn(BoxLayout):
         )
 
 
-class DrumMachineKeyboard(BoxLayout):
+class DrumMachinePanel(BoxLayout):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
