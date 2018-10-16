@@ -20,3 +20,9 @@ live_loop :drum_machine do
     sample :loop_amen, onset: set
   end
 end
+
+live_loop :chord_prog do
+  synth_name, tonic, type, key_degree = sync "/osc/chord-prog"
+  use_synth synth_name.to_sym
+  play (chord_degree key_degree.to_sym, tonic, type, 3)
+end
