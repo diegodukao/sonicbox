@@ -4,6 +4,7 @@ from kivy.graphics import Color, Rectangle
 from kivy.lang import Builder
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
+from kivy.uix.spinner import Spinner
 
 
 Builder.load_file('ui/chord_prog_screen.kv')
@@ -82,3 +83,7 @@ class ChordsColumn(BoxLayout):
     def remove_overlay(self):
         self.canvas.remove_group('overlay')
         self.canvas.ask_update()
+
+
+class ChordsSpinner(Spinner):
+    pass
