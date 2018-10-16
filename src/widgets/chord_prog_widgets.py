@@ -7,6 +7,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.spinner import Spinner
 
 from widgets.drum_machine_widgets import DMPlayButton
+from widgets.synth_widgets import SynthButton
 
 
 Builder.load_file('ui/chord_prog_screen.kv')
@@ -87,13 +88,13 @@ class ChordsColumn(BoxLayout):
         self.canvas.ask_update()
 
     def get_chosen_chord_data(self):
-        tonic = self.parent.tonic.replace('#', 's')
+        key = self.parent.key.replace('#', 's')
         degree = self.key_degree.lower()
 
         return [
             self.parent.synth,
-            tonic,
-            self.parent.scale,
+            key,
+            self.parent.key_type,
             degree,
         ]
 
@@ -113,3 +114,17 @@ class CPPlayButton(DMPlayButton):
     def on_release(self):
         dt = (60 / int(self.bpm_value))
         self.panel.play(dt)
+
+
+class KeysButton(SynthButton):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._bottom_sheet = self._create_bottom_sheet('keys')
+
+
+class KeyTypesButton(SynthButton):
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._bottom_sheet = self._create_bottom_sheet('key_types')

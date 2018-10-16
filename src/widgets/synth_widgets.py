@@ -12,6 +12,7 @@ from kivymd.bottomsheet import MDListBottomSheet
 from kivymd.menu import MDDropdownMenu
 from kivymd.selectioncontrols import MDCheckbox  # NOQA
 
+from constants.chord_prog import KEYS, KEY_TYPES
 from constants.synth import SCALES, SYNTHS, TONICS
 from services.theory import get_note_name, is_octave
 
@@ -63,6 +64,10 @@ class SynthButton(Button):
             items = TONICS
         elif option == 'scales':
             items = [scale_name for scale_name in sorted(SCALES.keys())]
+        elif option == 'keys':
+            items = KEYS
+        elif option == 'key_types':
+            items = KEY_TYPES
         else:
             raise Exception
 

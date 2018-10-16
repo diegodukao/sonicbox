@@ -2,8 +2,6 @@
 
 #:import DMStopButton widgets.drum_machine_widgets.DMStopButton
 #:import SynthsButton widgets.synth_widgets.SynthsButton
-#:import TonicsButton widgets.synth_widgets.TonicsButton
-#:import ScalesButton widgets.synth_widgets.ScalesButton
 
 
 <ChordProgScreen>:
@@ -43,13 +41,13 @@
                 current: "piano"
                 text: "Synth: {}".format(self.current)
                 on_release: self.open_bottom_sheet()
-            TonicsButton:
-                id: tonic_button
-                current: "c1"
+            KeysButton:
+                id: key_button
+                current: "c4"
                 text: "Tonic: {}".format(self.current)
                 on_release: self.open_bottom_sheet()
-            ScalesButton:
-                id: scale_button
+            KeyTypesButton:
+                id: key_type_button
                 current: "major"
                 text: "Scale: {}".format(self.current)
                 on_release: self.open_bottom_sheet()
@@ -58,8 +56,8 @@
             id: chords_panel
             size_hint_y: 0.76
             synth: synth_button.current
-            tonic: tonic_button.current
-            scale: scale_button.current
+            key: key_button.current
+            key_type: key_type_button.current
 
 
 <ChordsPanel>:
