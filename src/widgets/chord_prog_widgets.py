@@ -6,6 +6,8 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.spinner import Spinner
 
+from widgets.drum_machine_widgets import DMPlayButton
+
 
 Builder.load_file('ui/chord_prog_screen.kv')
 
@@ -87,3 +89,10 @@ class ChordsColumn(BoxLayout):
 
 class ChordsSpinner(Spinner):
     pass
+
+
+class CPPlayButton(DMPlayButton):
+
+    def on_release(self):
+        dt = (60 / int(self.bpm_value))
+        self.panel.play(dt)

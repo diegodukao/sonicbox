@@ -1,6 +1,5 @@
 #:import MDCheckbox kivymd.selectioncontrols.MDCheckbox
 
-#:import DMPlayButton widgets.drum_machine_widgets.DMPlayButton
 #:import DMStopButton widgets.drum_machine_widgets.DMStopButton
 #:import SynthButton widgets.synth_widgets.SynthButton
 
@@ -24,13 +23,14 @@
             BoxLayout:
                 orientation: 'vertical'
                 size_hint_x: 0.285
-                panel: root.panel
 
-                DMPlayButton:
+                CPPlayButton:
                     text: 'Play'
                     bpm_value: root.bpm.text
+                    panel: root.panel
                 DMStopButton:
                     text: 'Stop'
+                    panel: root.panel
 
         BoxLayout:
             size_hint_y: 0.12

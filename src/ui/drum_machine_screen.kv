@@ -18,13 +18,14 @@
             BoxLayout:
                 orientation: 'vertical'
                 size_hint_x: 0.285
-                panel: root.panel
 
                 DMPlayButton:
                     text: 'Play'
                     bpm_value: root.bpm.text
+                    panel: root.panel
                 DMStopButton:
                     text: 'Stop'
+                    panel: root.panel
 
         DrumMachinePanel:
             id: dm_panel
