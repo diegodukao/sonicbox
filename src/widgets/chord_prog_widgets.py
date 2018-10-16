@@ -88,10 +88,13 @@ class ChordsColumn(BoxLayout):
 
     def get_chosen_chord_data(self):
         tonic = self.parent.tonic.replace('#', 's')
+        degree = self.key_degree.lower()
+
         return [
             self.parent.synth,
             tonic,
             self.parent.scale,
+            degree,
         ]
 
     def send_chord(self):
