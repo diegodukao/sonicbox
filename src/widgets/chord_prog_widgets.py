@@ -105,16 +105,21 @@ class ChordsColumn(BoxLayout):
             self.get_chosen_chord_data(),
         )
 
+    def change_chord_label(self):
+        # key = self.parent.key
+        # key_type = self.parent.key_type
+        # degree = self.spinner.text
+        # chord_name = get_chord_name(key, key_type, degree)
+        # self.chord_label.text = chord_name
+        pass
+
 
 class ChordsSpinner(Spinner):
 
     def on_text(self, caller, value):
         if self.parent:
             try:
-                key = self.parent.parent.key
-                key_type = self.parent.parent.key_type
-                chord_name = get_chord_name(key, key_type, value)
-                self.parent.chord_label.text = chord_name
+                self.parent.change_chord_label()
             except AttributeError:
                 pass
 
