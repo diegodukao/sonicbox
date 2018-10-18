@@ -24,3 +24,11 @@ def get_note_name(tonic, scale, degree):
 
 def is_octave(note, scale):
     return bool(note % SCALES[scale] == 0)
+
+
+def get_chord_name(tonic, key_type, degree):
+    tonic = tonic.upper()
+
+    key = TonedScale(tonic=tonic)[key_type]
+
+    return key[degree].name

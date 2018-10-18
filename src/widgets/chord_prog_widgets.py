@@ -6,6 +6,7 @@ from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import Screen
 from kivy.uix.spinner import Spinner
 
+from services.theory import get_chord_name
 from widgets.drum_machine_widgets import DMPlayButton
 from widgets.synth_widgets import SynthButton
 
@@ -106,13 +107,22 @@ class ChordsColumn(BoxLayout):
 
 
 class ChordsSpinner(Spinner):
-    pass
+
+    def on_text(self, caller, value):
+        if self.parent:
+            try:
+                key = self.parent.parent.key
+                key_type = self.parent.parent.key_type
+                chord_name = get_chord_name(key, key_type, value)
+                self.parent.chord_label.text = chord_name
+            except AttributeError:
+                pass
 
 
 class CPPlayButton(DMPlayButton):
 
     def on_release(self):
-        dt = (60 / int(self.bpm_value))
+        dt = (60 / int(self.bpm_value) * 2)
         self.panel.play(dt)
 
 

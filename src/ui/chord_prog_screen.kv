@@ -71,9 +71,11 @@
     orientation: 'vertical'
     padding: [self.width / 6, dp(30), self.width / 6, 0]
     key_degree: chords_spinner.text
+    chord_label: chord_name_label
 
     Label:
         size_hint_y: None
+        id: chord_name_label
         height: dp(20)
         text: 'Cm'
     ChordsSpinner:
