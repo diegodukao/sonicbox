@@ -17,12 +17,12 @@ end
 live_loop :drum_machine do
   set_list = sync "/osc/drum-machine"
   set_list.each do |set|
-    sample :loop_amen, onset: set
+    sample set.to_sym
   end
 end
 
 live_loop :chord_prog do
   synth_name, tonic, type, key_degree = sync "/osc/chord-prog"
   use_synth synth_name.to_sym
-  play (chord_degree key_degree.to_sym, tonic, type, 3)
+  play (chord_degree key_degree.to_sym, tonic, type, 3), sustain: 1
 end

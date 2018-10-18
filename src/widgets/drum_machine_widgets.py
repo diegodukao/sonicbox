@@ -56,10 +56,16 @@ class DMKeyboardColumn(BoxLayout):
                 for button in self.children
                 if button.state == 'down']
 
+    def get_chosen_favorites(self):
+        fav_samples = dict(enumerate(self.app.favorite_samples))
+        return [sample
+                for sample_num, sample in fav_samples.items()
+                if sample_num in self.get_pressed_buttons()]
+
     def send_notes(self):
         self.app.sender.send_message(
             '/drum-machine',
-            self.get_pressed_buttons()
+            self.get_chosen_favorites()
         )
 
 
