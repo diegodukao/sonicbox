@@ -106,12 +106,11 @@ class ChordsColumn(BoxLayout):
         )
 
     def change_chord_label(self):
-        # key = self.parent.key
-        # key_type = self.parent.key_type
-        # degree = self.spinner.text
-        # chord_name = get_chord_name(key, key_type, degree)
-        # self.chord_label.text = chord_name
-        pass
+        key = self.parent.key
+        key_type = self.parent.key_type
+        degree = self.spinner.text
+        chord_name = get_chord_name(key, key_type, degree)
+        self.chord_label.text = chord_name
 
 
 class ChordsSpinner(Spinner):

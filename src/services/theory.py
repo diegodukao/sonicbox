@@ -27,8 +27,71 @@ def is_octave(note, scale):
 
 
 def get_chord_name(tonic, key_type, degree):
-    tonic = tonic.upper()
+    tonic = tonic.upper()[:-1]
 
-    key = TonedScale(tonic=tonic)[key_type]
+    try:
+        return CHORDS[key_type][tonic][degree]
+    except KeyError:
+        return degree
 
-    return key[degree].name
+
+CHORDS = {
+    "major": {
+        "C": {
+            "I": "C",
+            "II": "Dm",
+            "III": "Em",
+            "IV": "F",
+            "V": "G",
+            "VI": "Am",
+            "VII": "Bdim",
+        },
+        "D": {
+            "I": "D",
+            "II": "Em",
+            "III": "F#m",
+            "IV": "G",
+            "V": "A",
+            "VI": "Bm",
+            "VII": "C#dim",
+        },
+        "E": {
+            "I": "E",
+            "II": "F#m",
+            "III": "G#m",
+            "IV": "A",
+            "V": "B",
+            "VI": "C#m",
+            "VII": "D#dim",
+        },
+    },
+    "minor": {
+        "C": {
+            "I": "Cm",
+            "II": "Ddim",
+            "III": "Eb",
+            "IV": "Fm",
+            "V": "Gm",
+            "VI": "Ab",
+            "VII": "Bb",
+        },
+        "E": {
+            "I": "Em",
+            "II": "F#dim",
+            "III": "G",
+            "IV": "Am",
+            "V": "Bm",
+            "VI": "C",
+            "VII": "D",
+        },
+        "G": {
+            "I": "Gm",
+            "II": "Adim",
+            "III": "Bb",
+            "IV": "Cm",
+            "V": "Dm",
+            "VI": "Eb",
+            "VII": "F",
+        },
+    },
+}
