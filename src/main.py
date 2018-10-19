@@ -10,7 +10,7 @@ from services import storage
 kivy.require('1.10.0')
 
 
-class SonicBox(App):
+class Sonicbox(App):
     theme_cls = ThemeManager()
     _favorite_samples = None
     _sample_buttons = {}
@@ -58,4 +58,4 @@ class SonicBox(App):
         return self.root
 
 
-SonicBox().run()
+Sonicbox().run()

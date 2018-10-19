@@ -44,12 +44,12 @@
             KeysButton:
                 id: key_button
                 current: "c4"
-                text: "Tonic: {}".format(self.current)
+                text: "Key: {}".format(self.current)
                 on_release: self.open_bottom_sheet()
             KeyTypesButton:
                 id: key_type_button
                 current: "major"
-                text: "Scale: {}".format(self.current)
+                text: "Type: {}".format(self.current)
                 on_release: self.open_bottom_sheet()
 
         ChordsPanel:
@@ -80,7 +80,7 @@
         size_hint_y: None
         id: chord_name_label
         height: dp(20)
-        text: 'Cm'
+        text: 'C'
     ChordsSpinner:
         id: chords_spinner
         size_hint_y: None
