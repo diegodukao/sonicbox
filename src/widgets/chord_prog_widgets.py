@@ -70,6 +70,10 @@ class ChordsPanel(BoxLayout):
         self.reset_current_column_number()
         self.playing = False
 
+    def update_chord_label(self):
+        for col in self.children:
+            col.change_chord_label()
+
 
 class ChordsColumn(BoxLayout):
 
