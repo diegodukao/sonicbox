@@ -95,12 +95,14 @@ class ChordsColumn(BoxLayout):
     def get_chosen_chord_data(self):
         key = self.parent.key.replace('#', 's')
         degree = self.key_degree.lower()
+        bpm = self.parent.bpm
 
         return [
             self.parent.synth,
             key,
             self.parent.key_type,
             degree,
+            bpm,
         ]
 
     def send_chord(self):
@@ -131,6 +133,7 @@ class CPPlayButton(DMPlayButton):
 
     def on_release(self):
         dt = (60 / int(self.bpm_value) * 2)
+        self.panel.bpm = int(self.bpm_value)
         self.panel.play(dt)
 
 
